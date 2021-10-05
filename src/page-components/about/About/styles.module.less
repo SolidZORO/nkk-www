@@ -1,0 +1,29 @@
+@import '/src/styles/variables.less';
+@import '/src/styles/mixin.less';
+
+.comp-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  place-items: center;
+  //
+  min-height: 70vh;
+  height: calc(100vh - 260px);
+}
+
+.about-box {
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  place-items: center;
+  flex-direction: column;
+
+  svg {
+    font-size: 2rem;
+  }
+}
+
+// DARK-MODE--COMP
+.comp-wrapper--alwaysDarkMode,
+:global(.@{THEME--DARK}) .comp-wrapper {
+}

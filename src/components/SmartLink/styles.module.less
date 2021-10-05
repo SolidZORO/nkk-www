@@ -1,0 +1,22 @@
+@import '/src/styles/variables.less';
+@import '/src/styles/mixin.less';
+
+.comp-wrapper {
+  cursor: pointer;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: unset;
+  }
+}
+
+// DARK-MODE--COMP
+.comp-wrapper--alwaysDarkMode,
+:global(.@{THEME--DARK}) .comp-wrapper {
+  &:active,
+  &:focus,
+  &:hover {
+    color: unset;
+  }
+}

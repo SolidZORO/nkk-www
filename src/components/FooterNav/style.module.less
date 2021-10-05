@@ -1,0 +1,71 @@
+@import '/src/styles/variables.less';
+@import '/src/styles/mixin.less';
+
+.comp-wrapper {
+  display: flex;
+  padding-bottom: 50px;
+  margin: 0 var(--layout-padding-x);
+  margin-top: 100px;
+}
+
+.logo {
+  display: block;
+  width: 20px;
+
+  svg {
+    color: #111;
+  }
+}
+
+.logo-link {
+  display: block;
+}
+
+.say-hello,
+.copyright {
+  position: relative;
+}
+
+.copyright-text {
+  @color: #999;
+
+  display: block;
+  font-size: 12px;
+  line-height: 1;
+  color: @color;
+
+  strong {
+    font-weight: 400;
+  }
+
+  span {
+  }
+
+  a {
+    display: inline-block;
+    padding: 0 3px;
+    color: @color;
+
+    &:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+  }
+}
+
+.say-hello {
+  margin-top: 20px;
+  opacity: 0.2;
+  display: none;
+
+  @media (min-width: @screen-md) {
+    margin-top: 0;
+    opacity: 1;
+    display: block;
+  }
+}
+
+// DARK-MODE--COMP
+.comp-wrapper--alwaysDarkMode,
+:global(.@{THEME--DARK}) .comp-wrapper {
+}

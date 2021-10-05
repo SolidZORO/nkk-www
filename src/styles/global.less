@@ -1,0 +1,55 @@
+@import '/src/styles/variables.less';
+@import '/src/styles/variables-css.less';
+@import '/src/styles/animate.less';
+
+html,
+body {
+  width: 100%;
+  background-color: var(--primary-color-bg);
+}
+
+html {
+  text-size-adjust: 100%;
+}
+
+body {
+  font-size: 14px;
+}
+
+html,
+body,
+#root,
+#__next,
+.app {
+  height: 100%;
+  background-color: var(--primary-color-bg);
+}
+
+.theme-dark {
+  background-color: var(--primary-color-bg--dark);
+  transition: all 0.5s;
+
+  body {
+    background-color: var(--primary-color-bg--dark);
+    transition: all 0.5s;
+  }
+}
+
+.g-icon-spin {
+  @s: 0.6s;
+  -webkit-animation: infiniteRotating @s infinite linear;
+  animation: infiniteRotating @s infinite linear;
+}
+
+//
+
+//svg[stroke='currentColor'] {
+.rcicon {
+  line-height: 1;
+  display: inline-block;
+  vertical-align: -3px;
+  font-size: 16px;
+}
+
+.g-rcicon {
+}

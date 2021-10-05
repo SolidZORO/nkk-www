@@ -1,0 +1,10 @@
+{
+  "name": "nkk-www",
+  "short_name": "nkk-www",
+  "description": "nkk-www (Next.js)",
+  "orientation": "portrait",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#000"
+}

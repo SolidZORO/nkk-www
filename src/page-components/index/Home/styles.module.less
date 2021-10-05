@@ -1,0 +1,58 @@
+@import '/src/styles/variables.less';
+@import '/src/styles/mixin.less';
+
+.comp-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  place-items: center;
+  //
+  min-height: 70vh;
+  height: calc(100vh - 260px);
+}
+
+.site-name {
+  opacity: 0;
+  text-indent: -999em;
+  height: 0;
+}
+
+.banner {
+  display: block;
+  color: var(--text-color);
+  padding: 0;
+
+  // > iPhone 5
+  @media (min-width: 321px) {
+    padding: 0 20px;
+  }
+
+  h2,
+  h3 {
+    color: var(--text-color);
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    margin-top: 30px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #777;
+  }
+}
+
+.block--footer {
+  //margin-top: 220px;
+}
+
+// DARK-MODE--COMP
+.comp-wrapper--alwaysDarkMode,
+:global(.@{THEME--DARK}) .comp-wrapper {
+}
