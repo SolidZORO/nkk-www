@@ -86,11 +86,13 @@ CustomApp.getInitialProps = async () => {
     data: { data: IApiSettingAllItem };
   } = await fetcher.get(apiUrl);
 
+  if (!settingsRes?.data?.data) return {};
+
   return {
     pageProps: {
       initState: {
         appStore: {
-          setting: settingsRes?.data?.data,
+          setting: settingsRes.data.data,
         } as Partial<AppStore>,
       },
     },

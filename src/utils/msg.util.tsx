@@ -1,13 +1,15 @@
 import React from 'react';
 import { message } from 'antd';
-import { RiLoader4Line } from 'react-icons/ri';
-
-// import { ReactComponent as SsSuccess } from '@/assets/icons/toast/success.svg';
-// import { ReactComponent as SsFail } from '@/assets/icons/toast/fail.svg';
+import {
+  RiLoader4Line,
+  RiBearSmileLine,
+  RiErrorWarningLine,
+} from 'react-icons/ri';
 
 import { IFetcherError, IMutError, IRqItemOpts, IRqListOpts } from '@/types';
 import { configs } from '@/configs';
 import { IFetcherResItem, IFetcherResList } from '@/types/api';
+import { isServer } from '@/utils/env.util';
 
 export declare type IToastType =
   | 'info'
@@ -27,6 +29,8 @@ export interface IToastOpts {
 
 // 供内部 msg 和 errorMsg 调用，不暴露在外面
 function _toast(text: React.ReactNode | string, opts: IToastOpts): void {
+  if (isServer()) return;
+
   const DEFAULT_OPTS = {
     // type: 'success',
     icon: <span />,
@@ -45,13 +49,11 @@ function _toast(text: React.ReactNode | string, opts: IToastOpts): void {
   // console.log(nextOpts);
 
   if (['error', 'info', 'warning'].includes(nextOpts?.type)) {
-    // nextOpts.icon = <SsFail />;
-    nextOpts.icon = <RiLoader4Line className="g-icon-spin" />;
+    nextOpts.icon = <RiErrorWarningLine />;
   }
 
   if (nextOpts?.type === 'success') {
-    // nextOpts.icon = <SsSuccess />;
-    nextOpts.icon = <RiLoader4Line className="g-icon-spin" />;
+    nextOpts.icon = <RiBearSmileLine />;
   }
 
   if (nextOpts?.type === 'loading') {
@@ -102,6 +104,8 @@ export function msg(
   text?: React.ReactNode | string,
   params?: { type?: 'error' | string; duration?: number },
 ) {
+  if (isServer()) return;
+
   message.config({ prefixCls: 'ant-message' });
   message.config({ prefixCls: 'ant-message', duration: params?.duration });
 
