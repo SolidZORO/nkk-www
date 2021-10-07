@@ -21,10 +21,6 @@ export const FooterNav: React.FC<IProps> = (props) => {
       style={props.style}
     >
       <div className={styles['copyright']}>
-        <SmartLink href="/" className={cx(styles['logo-link'])}>
-          <Logo className={styles['logo']} />
-        </SmartLink>
-
         <div className={styles['copyright-text']}>
           Copyright © {new Date().getFullYear()}{' '}
           <a href="https://local.com" target="_blank" rel="noreferrer">
@@ -32,6 +28,10 @@ export const FooterNav: React.FC<IProps> = (props) => {
           </a>
           , All rights reserved.
         </div>
+
+        <SmartLink href="/" className={cx(styles['logo-link'])}>
+          <Logo className={styles['logo']} />
+        </SmartLink>
       </div>
     </div>
   );

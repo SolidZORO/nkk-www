@@ -1,5 +1,7 @@
 import cx from 'classnames';
 import React from 'react';
+import { observer } from 'mobx-react';
+import { RiHomeLine } from 'react-icons/ri';
 
 import { IPageBaseProps } from '@/types';
 import { HtmlMeta, PageWrapper } from '@/components';
@@ -7,7 +9,6 @@ import { configs } from '@/configs';
 import { useStore } from '@/stores';
 
 import styles from './styles.module.less';
-import { observer } from 'mobx-react';
 
 interface IProps extends IPageBaseProps {}
 
@@ -28,8 +29,10 @@ let Home: React.FC<IProps> = (props) => {
       <HtmlMeta title={configs.app.NAME} disableSiteName />
 
       <div className={styles['banner']}>
-        <h2>APP {configs.app.NAME}</h2>
-        <code>{JSON.stringify(appStore.setting)}</code>
+        <h2>
+          <RiHomeLine />
+        </h2>
+        <code>{appStore.setting?.site_name}</code>
       </div>
     </PageWrapper>
   );

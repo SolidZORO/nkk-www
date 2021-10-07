@@ -21,6 +21,8 @@
   display: block;
   color: var(--text-color);
   padding: 0;
+  width: 100%;
+  text-align: center;
 
   // > iPhone 5
   @media (min-width: 321px) {
@@ -45,6 +47,25 @@
     font-size: 0.8rem;
     font-weight: 500;
     color: #777;
+  }
+
+  svg {
+    font-size: 10rem;
+  }
+
+  code {
+    //margin-top: 5px;
+    margin-top: -10px;
+    display: block;
+    padding: 20px;
+    font-size: 30px;
+    font-weight: 600;
+    //opacity: 0.5;
+    white-space: pre-wrap;
+    word-break: break-all;
+    transform-origin: center;
+    //font-family: var(--style-ui-family);
+    font-family: var(--price-family);
   }
 }
 

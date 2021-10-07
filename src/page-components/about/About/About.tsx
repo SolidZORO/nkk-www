@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import React from 'react';
 import { observer } from 'mobx-react';
-import { RiBook2Fill } from 'react-icons/ri';
+import { BiWater } from 'react-icons/bi';
 
 import { IPageBaseProps } from '@/types';
 import { HtmlMeta, PageWrapper } from '@/components';
@@ -22,10 +22,10 @@ let About: React.FC<IProps> = (props) => {
       )}
       style={props.style}
     >
-      <HtmlMeta title={`About`} />
+      <HtmlMeta title="About" />
 
       <div className={styles['about-box']}>
-        <RiBook2Fill />
+        <BiWater />
       </div>
     </PageWrapper>
   );

@@ -1,13 +1,6 @@
-// import cx from 'classnames';
-// import React from 'react';
-
-// import { IPageBaseProps } from '@/types';
-// import { HtmlMeta, PageWrapper } from '@/components';
 import cx from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-// import { useHistory } from 'react-router';
-// import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { Button } from 'antd';
 
@@ -24,7 +17,6 @@ import {
   setUserInfo,
   setUserToken,
 } from '@/utils/user.util';
-// import { useQueryItemCaptcha } from '@/querys/captcha';
 import { useMutationLogin } from '@/mutaions/auth';
 
 import styles from './styles.module.less';
@@ -105,17 +97,6 @@ let Login: React.FC<IProps> = (props) => {
       <HtmlMeta title="Login" />
 
       <div className={styles['comp-inner']}>
-        <div className={styles['header']}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/favicons/logo.svg"
-            className={styles['logo']}
-            alt={configs.app.NAME}
-          />
-
-          <h3 className={styles['title']}>Login</h3>
-        </div>
-
         <LoginForm ref={loginFormRef} onSubmit={onSubmit} />
 
         <LoadingButton

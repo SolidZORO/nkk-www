@@ -1,11 +1,12 @@
 @import '/src/styles/variables.less';
 @import '/src/styles/variables-css.less';
+@import '/src/styles/antd.less';
 @import '/src/styles/animate.less';
 
 html,
 body {
   width: 100%;
-  background-color: var(--primary-color-bg);
+  //background-color: var(--primary-color-bg);
 }
 
 html {
@@ -22,7 +23,7 @@ body,
 #__next,
 .app {
   height: 100%;
-  background-color: var(--primary-color-bg);
+  //background-color: var(--primary-color-bg);
 }
 
 .theme-dark {
@@ -52,4 +53,29 @@ body,
 }
 
 .g-rcicon {
+}
+
+//
+//
+//
+// 3rd lib ----------
+.ReactQueryDevtools {
+  //opacity: 0.8;
+
+  & > button {
+    bottom: calc(env(safe-area-inset-bottom) + 5px) !important;
+    margin: 5px !important;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      opacity: 0.3;
+    }
+  }
+}
+
+.ReactQueryDevtoolsPanel {
+  * {
+    font-size: 10px !important;
+  }
 }
