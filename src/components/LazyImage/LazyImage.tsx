@@ -21,6 +21,7 @@ export const LazyImage: React.FC<IProps> = (props) => {
       )}
       style={props.style}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img className="lazyload" src={props.src?.src} alt={props.src?.src} />
     </div>
   );

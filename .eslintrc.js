@@ -2,7 +2,7 @@
 module.exports = {
   // https://github.com/qcolate/eslint-config-qcolate/blob/master/.eslintrc.js
   // extends: ['airbnb', 'airbnb-typescript', 'prettier'],
-  extends: ['qcolate'],
+  extends: ['next/core-web-vitals', 'qcolate'],
   env: {
     browser: true,
     es2021: true,
@@ -11,6 +11,9 @@ module.exports = {
   globals: {
     __DEV__: true,
     __PROD__: true,
+  },
+  parserOptions: {
+    project: ['tsconfig.json'],
   },
   //
   // 0 (off) / 1 (warn) / 2 (error)
