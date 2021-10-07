@@ -1,9 +1,14 @@
-import { IDotEnv } from '@/types';
-
-// @ts-ignore
 // can't pass { ...env } parsing, MUST correspond to 1 to 1
-// export const __env__: IDotEnv = process.env as IDotEnv;
-export const __env__: IDotEnv = {
+export const __env__ = {
   NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
   NEXT_PUBLIC_BUILD_INFO: process.env.NEXT_PUBLIC_BUILD_INFO,
-} as IDotEnv;
+  //
+  NEXT_PUBLIC_NAME: process.env.NEXT_PUBLIC_NAME,
+  NEXT_PUBLIC_USER_TABLE_UNIQUE: process.env.NEXT_PUBLIC_USER_TABLE_UNIQUE,
+  NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  NEXT_PUBLIC_API_VER: process.env.NEXT_PUBLIC_API_VER,
+  //
+  NEXT_PUBLIC_CDN_URL: process.env.NEXT_PUBLIC_CDN_URL,
+  NEXT_PUBLIC_UPLOAD_URL: process.env.NEXT_PUBLIC_UPLOAD_URL,
+  NEXT_PUBLIC_ROUTER_BASENAME: process.env.NEXT_PUBLIC_ROUTER_BASENAME,
+};

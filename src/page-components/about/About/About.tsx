@@ -1,5 +1,6 @@
 import cx from 'classnames';
 import React from 'react';
+import { observer } from 'mobx-react';
 import { RiBook2Fill } from 'react-icons/ri';
 
 import { IPageBaseProps } from '@/types';
@@ -9,7 +10,8 @@ import styles from './styles.module.less';
 
 interface IProps extends IPageBaseProps {}
 
-export const About: React.FC<IProps> = (props) => {
+// eslint-disable-next-line import/no-mutable-exports
+let About: React.FC<IProps> = (props) => {
   return (
     <PageWrapper
       className={cx(
@@ -20,7 +22,7 @@ export const About: React.FC<IProps> = (props) => {
       )}
       style={props.style}
     >
-      <HtmlMeta title={props.pageProps?.name} />
+      <HtmlMeta title={`About`} />
 
       <div className={styles['about-box']}>
         <RiBook2Fill />
@@ -28,3 +30,6 @@ export const About: React.FC<IProps> = (props) => {
     </PageWrapper>
   );
 };
+
+About = observer(About);
+export { About };

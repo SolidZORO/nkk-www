@@ -1,7 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
 import { useRouter } from 'next/router';
-import { FiPercent } from 'react-icons/fi';
 
 import { ICompBaseProps } from '@/types';
 import { Logo, SmartLink } from '@/components';
@@ -14,7 +13,8 @@ export const HeaderNavbar: React.FC<IProps> = (props) => {
   const { pathname } = useRouter();
 
   const navs = [
-    { to: '/about', text: 'about', icon: <FiPercent />, exact: true },
+    { to: '/about', text: 'about', exact: true },
+    { to: '/login', text: 'login', exact: true },
   ];
 
   return (

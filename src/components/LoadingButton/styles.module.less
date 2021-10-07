@@ -1,0 +1,48 @@
+@import '/src/styles/variables.less';
+@import '/src/styles/mixin.less';
+
+.loading-button {
+  min-width: 110px;
+  min-height: 38px;
+
+  .spin-icon {
+    svg {
+      margin: 0 !important;
+      margin-top: -1px !important;
+    }
+  }
+}
+
+// color
+.loading-button-type--primary {
+  .spin-icon {
+    svg {
+      color: #fff;
+    }
+  }
+}
+
+// size
+.loading-button-size--large {
+  .spin-icon {
+    svg {
+      margin-top: 0 !important;
+    }
+  }
+}
+
+.loading-button-size--small {
+  .spin-icon {
+    svg {
+      margin-top: 1px !important;
+    }
+  }
+}
+
+.loading-button--loading {
+}
+
+// DARK-MODE
+.comp-wrapper--alwaysDarkMode,
+:global(.@{THEME--DARK}) .comp-wrapper {
+}

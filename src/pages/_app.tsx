@@ -1,18 +1,31 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Spin } from 'antd';
 import { HelmetProvider } from 'react-helmet-async';
 import { Router } from 'next/router';
-import { ErrorBoundary, LoadingSpinner } from '@/components';
-import { MasterLayout } from '@/layouts';
-import { DISABLE_SSR_TRANSITION } from '@/pages/_document';
-import { isServer } from '@/utils/env.util';
-import { ILayout } from '@/types/comp.type';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
-// import '@/styles/rcicon.css';
+import { StoresProvider } from '@/stores';
+import {
+  AppGlobalEvent,
+  AppGlobalFetch,
+  ErrorBoundary,
+  LoadingSpinner,
+} from '@/components';
+import { MasterLayout } from '@/layouts/MasterLayout/MasterLayout';
+import { AuthLayout } from '@/layouts/AuthLayout/AuthLayout';
+import { ILayout } from '@/types/comp.type';
+import { configs } from '@/configs';
+import { fetcher } from '@/libs';
+import { AppStore } from '@/stores/app.store';
+import { IApiSettingAllItem } from '@/types/api';
 
 require('@/styles/global.less');
 
-Spin.setDefaultIndicator(<LoadingSpinner />);
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { refetchOnWindowFocus: false },
+  },
+});
 
 export interface ICustomApp {
   Component: React.FC & {
@@ -23,46 +36,63 @@ export interface ICustomApp {
     name?: string;
   };
   routeProps: Router;
+  router: Router;
   err?: Error;
 }
 
+Spin.setDefaultIndicator(<LoadingSpinner />);
+
 export default function CustomApp(props: ICustomApp) {
-  const avoidCssAnimationFlashing = () => {
-    if (!isServer()) {
-      const disableTransitionDom = document.getElementById(
-        DISABLE_SSR_TRANSITION,
-      );
+  // 默认 Master
+  let layoutDom = (
+    <MasterLayout
+      mainComp={props.Component}
+      routeProps={props.routeProps}
+      pageProps={props.pageProps}
+    />
+  );
 
-      if (disableTransitionDom) disableTransitionDom.remove();
-    }
-  };
-
-  useEffect(() => {
-    avoidCssAnimationFlashing();
-  }, []);
-
-  // let layoutDom = null;
-
-  // if (props.pageProps?.layout === 'master') {
-  //   layoutDom = (
-  //     <MasterLayout
-  //       mainComp={props.Component}
-  //       routeProps={props.routeProps}
-  //       pageProps={props.pageProps}
-  //     />
-  //   );
-  // }
+  // 遇到个别属于 auth 的 login/register 要走 auth
+  if (['/login', '/register'].includes(props.router.pathname)) {
+    layoutDom = (
+      <AuthLayout
+        mainComp={props.Component}
+        routeProps={props.routeProps}
+        pageProps={props.pageProps}
+      />
+    );
+  }
 
   return (
     <ErrorBoundary>
       <HelmetProvider>
-        {/*{layoutDom || <span />}*/}
-        <MasterLayout
-          mainComp={props.Component}
-          routeProps={props.routeProps}
-          pageProps={props.pageProps}
-        />
+        <StoresProvider {...props.pageProps}>
+          <QueryClientProvider client={queryClient}>
+            <AppGlobalFetch />
+            <AppGlobalEvent />
+
+            {layoutDom || <span />}
+          </QueryClientProvider>
+        </StoresProvider>
       </HelmetProvider>
     </ErrorBoundary>
   );
 }
+
+CustomApp.getInitialProps = async () => {
+  const apiUrl = `${configs.url.API_URL}/settings/all`;
+
+  const settingsRes: {
+    data: { data: IApiSettingAllItem };
+  } = await fetcher.get(apiUrl);
+
+  return {
+    pageProps: {
+      initState: {
+        appStore: {
+          setting: settingsRes.data?.data,
+        } as Partial<AppStore>,
+      },
+    },
+  };
+};

@@ -1,11 +1,6 @@
-export interface IDotEnv {
-  // PUBLIC_URL: string;
-  //
-  NEXT_PUBLIC_APP_NAME: string;
-  //
-  // webpackPluginDefine
-  NEXT_PUBLIC_BUILD_INFO: IBuildInfo;
-}
+import { __env__ } from '@/configs/env';
+
+export type IDotEnv = typeof __env__;
 
 export interface IBuildInfo {
   PKG_NAME?: string; // 'name',

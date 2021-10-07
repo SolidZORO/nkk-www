@@ -26,11 +26,11 @@ export const FooterNav: React.FC<IProps> = (props) => {
         </SmartLink>
 
         <div className={styles['copyright-text']}>
-          Copyright © {new Date().getFullYear()}
+          Copyright © {new Date().getFullYear()}{' '}
           <a href={`https://local.com`} target="_blank" rel="noreferrer">
             {configs.app.NAME}
           </a>
-          All rights reserved.
+          , All rights reserved.
         </div>
       </div>
     </div>

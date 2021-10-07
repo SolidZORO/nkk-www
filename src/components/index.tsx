@@ -7,6 +7,9 @@ export { FooterNav } from './FooterNav/FooterNav';
 export { LoadingSpinner } from './LoadingSpinner/LoadingSpinner';
 export { ErrorBoundary } from './ErrorBoundary/ErrorBoundary';
 export { SmartLink } from './SmartLink/SmartLink';
+export { LoadingButton } from './LoadingButton/LoadingButton';
+export { AppGlobalEvent } from './AppGlobalEvent/AppGlobalEvent';
 
 export { Logo } from './Logo/Logo';
+export { AppGlobalFetch } from './AppGlobalFetch/AppGlobalFetch';
 export { LazyImage } from './LazyImage/LazyImage';

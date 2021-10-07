@@ -1,6 +1,9 @@
+import { NextRouter } from 'next/router';
+
 declare global {
   interface Window {
     NoCaptcha: any;
+    __ROUTER_HISTORY__: NextRouter;
   }
 }
 
@@ -11,6 +14,3 @@ declare namespace NodeJS {
 }
 
 declare const __DEV__: boolean;
-
-declare module 'colorthief/*';
-declare module 'react-router-scroll-memory';
