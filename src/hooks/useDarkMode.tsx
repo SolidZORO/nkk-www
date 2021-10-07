@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { CSS_THEME_DARK } from '@/constants';
+import { CSS_THEME_DARK } from '@/consts/style.const';
 
 export const useDarkMode: () => void = () => {
   useEffect(() => {
