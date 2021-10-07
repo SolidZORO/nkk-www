@@ -5,11 +5,7 @@ export const time = {
   FORMAT_DATE,
   FORMAT_TIME,
   FORMAT_DATE_TIME: `${FORMAT_DATE} ${FORMAT_TIME}`,
-  FORMAT_DATE_TIME_INT: `${FORMAT_DATE}${FORMAT_TIME}`
-    .replaceAll('-', '')
-    .replaceAll(':', ''),
-  // audio
-  // FORMAT_AUDIO_TIME: 'mm:ss',
+  FORMAT_DATE_TIME_INT: `${FORMAT_DATE}${FORMAT_TIME}`.replace(/[-:]/ig, ''),
   FORMAT_AUDIO_TIME: 'mm:ss',
   //
   //
