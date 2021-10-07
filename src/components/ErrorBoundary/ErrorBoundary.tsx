@@ -39,7 +39,7 @@ export class ErrorBoundary extends React.Component<IProps, IState> {
   render() {
     if (this.state.hasError) {
       return (
-        <div className={styles['error-boundary-comp-wrapper']}>
+        <div className={styles['comp-wrapper']}>
           <div className={styles['error-boundary-container']}>
             <div className={styles['title']}>
               <strong>Page Load Error</strong>

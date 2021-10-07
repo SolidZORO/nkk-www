@@ -106,8 +106,9 @@ let Login: React.FC<IProps> = (props) => {
 
       <div className={styles['comp-inner']}>
         <div className={styles['header']}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={`/favicons/logo.svg`}
+            src="/favicons/logo.svg"
             className={styles['logo']}
             alt={configs.app.NAME}
           />

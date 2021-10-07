@@ -2,10 +2,49 @@
 @import '/src/styles/mixin.less';
 
 .comp-wrapper {
+  padding: var(--page-padding-x);
+  flex-direction: column;
+}
+
+.header-wrapper {
+  display: block;
+  position: relative;
+  margin-bottom: var(--page-padding-x);
+  justify-content: space-between;
+
+  @media (min-width: @screen-sm) {
+    display: flex;
+  }
+}
+
+.title-wrapper {
+  display: flex;
+  min-height: 36px;
+  place-items: center;
+  margin-bottom: var(--page-padding-x);
+
+  @media (min-width: @screen-sm) {
+    margin-bottom: 0;
+  }
+
+  .title {
+    margin: 0;
+    padding: 0;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .title-toolbar {
+    position: relative;
+    margin-left: 20px;
+  }
+}
+
+.extend-wrapper {
   position: relative;
 }
 
-// DARK-MODE--COMP
+// DARK-MODE
 .comp-wrapper--alwaysDarkMode,
 :global(.@{THEME--DARK}) .comp-wrapper {
 }

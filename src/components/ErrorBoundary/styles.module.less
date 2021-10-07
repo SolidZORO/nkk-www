@@ -1,7 +1,7 @@
 @import '/src/styles/variables.less';
 @import '/src/styles/mixin.less';
 
-.error-boundary-comp-wrapper {
+.comp-wrapper {
   position: relative;
   display: flex;
   flex: 1;
@@ -73,9 +73,9 @@
   }
 }
 
-// DARK-MODE--COMP
-body .error-boundary-comp-wrapper--alwaysDarkMode,
-:global(.@{THEME--DARK}) .error-boundary-comp-wrapper {
+// DARK-MODE
+.comp-wrapper--alwaysDarkMode,
+:global(.@{THEME--DARK}) .comp-wrapper {
   .title,
   .error-info {
     color: #fff;
