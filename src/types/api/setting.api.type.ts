@@ -1,5 +1,5 @@
 /* eslint-disable max-len, import/no-cycle */
-import { IApiCategoryItem, IApiCommonPage } from '@/types/api';
+import { IApiCommonPage } from '@/types/api';
 
 export type IApiSettingItem = {
   key: string;

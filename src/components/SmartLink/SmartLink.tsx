@@ -19,6 +19,7 @@ export const SmartLink: React.FC<IProps> = (props) => {
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <Link href={props.href}>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a
         className={cx(
           styles['comp-wrapper'],

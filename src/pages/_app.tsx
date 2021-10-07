@@ -34,6 +34,7 @@ export interface ICustomApp {
   pageProps: {
     layout?: ILayout;
     name?: string;
+    initState: any;
   };
   routeProps: Router;
   router: Router;
@@ -66,6 +67,7 @@ export default function CustomApp(props: ICustomApp) {
   return (
     <ErrorBoundary>
       <HelmetProvider>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <StoresProvider {...props.pageProps}>
           <QueryClientProvider client={queryClient}>
             <AppGlobalFetch />

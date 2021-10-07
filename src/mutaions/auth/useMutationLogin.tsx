@@ -2,7 +2,7 @@ import { useMutation } from 'react-query';
 
 import { configs } from '@/configs';
 import { fetcher } from '@/libs/fetcher.lib';
-import { ILoginReq, ILoginRes, IRqItemOpts } from '@/types';
+import { ILoginRes, IRqItemOpts } from '@/types';
 import { handleMutCatch, handleMutItem } from '@/utils/msg.util';
 import { IFetcherResItem } from '@/types/api';
 

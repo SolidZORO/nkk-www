@@ -2,7 +2,7 @@ import cx from 'classnames';
 import React from 'react';
 
 import { IPageBaseProps } from '@/types';
-import { AppGlobalFetch, HtmlMeta, PageWrapper } from '@/components';
+import { HtmlMeta, PageWrapper } from '@/components';
 import { configs } from '@/configs';
 import { useStore } from '@/stores';
 

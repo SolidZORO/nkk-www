@@ -7,7 +7,9 @@ export const user = {
   VISITOR_TOKEN_NAME: 'visitorToken',
   //
   USER_TABLE_UNIQUE: __env__.NEXT_PUBLIC_USER_TABLE_UNIQUE
-    ? __env__.NEXT_PUBLIC_USER_TABLE_UNIQUE.split(',').map((item) => item.trim())
+    ? __env__.NEXT_PUBLIC_USER_TABLE_UNIQUE.split(',').map((item) =>
+        item.trim(),
+      )
     : ['phone'],
 
   WITHOUT_AUTH_URLS: ['/order/success'],

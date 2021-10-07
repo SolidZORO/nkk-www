@@ -11,7 +11,7 @@ export const configs = {
   time,
   url,
   user,
-  rq
+  rq,
 };
 
 export * from './env';

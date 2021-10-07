@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, observable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 
 import { getUserPermissions } from '@/utils/user.util';
 

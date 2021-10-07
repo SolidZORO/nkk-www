@@ -1,9 +1,9 @@
 import React from 'react';
 import { message } from 'antd';
 import {
-  RiLoader4Line,
   RiBearSmileLine,
   RiErrorWarningLine,
+  RiLoader4Line,
 } from 'react-icons/ri';
 
 import { IFetcherError, IMutError, IRqItemOpts, IRqListOpts } from '@/types';

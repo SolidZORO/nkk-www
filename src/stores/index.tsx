@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { configure, toJS } from 'mobx';
+import { configure } from 'mobx';
 import { enableStaticRendering } from 'mobx-react';
 
 import { isServer } from '@/utils/env.util';
@@ -20,7 +20,7 @@ export const StoreContext = createContext(allStores());
 
 const initStore = (initData = {}) => {
   // 每个 store 会找 initData 的值初始化
-  let _stores = stores ?? allStores(initData);
+  const _stores = stores ?? allStores(initData);
 
   // for SSG and SSR always create a new store
   if (isServer()) return _stores;
@@ -33,13 +33,12 @@ const initStore = (initData = {}) => {
 
 export const StoresProvider: React.FC = (props?: {
   children?: any;
-  // @ts-ignore
   initState?: any;
 }) => {
-  const stores = initStore(props?.initState);
+  const _stores = initStore(props?.initState);
 
   return (
-    <StoreContext.Provider value={stores}>
+    <StoreContext.Provider value={_stores}>
       {props?.children}
     </StoreContext.Provider>
   );

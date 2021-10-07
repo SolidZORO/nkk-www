@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import Cookies from 'js-cookie';
-import FingerprintJS, { GetResult } from '@fingerprintjs/fingerprintjs';
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
 
 import { configs } from '@/configs';
 import { IAuthUser } from '@/types';

@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import React from 'react';
-import { FooterNav, HeaderNavbar } from '@/components';
+import { HeaderNavbar } from '@/components';
 import { ILayoutBaseProps } from '@/types/comp.type';
 
 import styles from './styles.module.less';

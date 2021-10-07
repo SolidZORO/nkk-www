@@ -3,9 +3,9 @@ import cx from 'classnames';
 
 import { ICompBaseProps } from '@/types';
 import { configs } from '@/configs';
+import { Logo, SmartLink } from '@/components';
 
 import styles from './style.module.less';
-import { Logo, SmartLink } from '@/components';
 
 interface IProps extends ICompBaseProps {}
 
@@ -27,7 +27,7 @@ export const FooterNav: React.FC<IProps> = (props) => {
 
         <div className={styles['copyright-text']}>
           Copyright © {new Date().getFullYear()}{' '}
-          <a href={`https://local.com`} target="_blank" rel="noreferrer">
+          <a href="https://local.com" target="_blank" rel="noreferrer">
             {configs.app.NAME}
           </a>
           , All rights reserved.
