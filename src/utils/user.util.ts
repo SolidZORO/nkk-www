@@ -11,7 +11,30 @@ import { fetcher } from '@/libs';
 import { IFetcherResItem } from '@/types/api';
 import { isServer } from '@/utils/env.util';
 
-// UserToken (cookie)
+//
+//
+//
+// User Token (cookie)
+export const getUserToken = (
+  opts: { onlyToken?: boolean; token?: string | null } = {
+    onlyToken: false,
+    token: null,
+  },
+): string => {
+  // 这里直接传 token 感觉比较奇怪，其实是在 _app.ts 初始化 store 时，
+  // 还没办法使用 userStore 的解决方案
+  const userToken = opts?.token || Cookies.get(configs.user.USER_TOKEN_NAME);
+
+  if (!userToken) {
+    // console.log('🔑 Not Found Token');
+    return '';
+  }
+
+  if (userToken && opts?.onlyToken) return userToken.replace(/^Bearer\s/, '');
+
+  return userToken;
+};
+
 export const setUserToken = (token: string, expiresIn: string) => {
   if (!token || !expiresIn) {
     errorMsg('Auth Token Error');
@@ -24,19 +47,6 @@ export const setUserToken = (token: string, expiresIn: string) => {
   Cookies.set(configs.user.USER_TOKEN_EXPIRES_IN_NAME, expiresIn, { expires });
 };
 
-export const getUserToken = (opts = { onlyToken: false }): string => {
-  const userToken = Cookies.get(configs.user.USER_TOKEN_NAME);
-
-  if (!userToken) {
-    // console.log('🔑 Not Found Token');
-    return '';
-  }
-
-  if (userToken && opts?.onlyToken) return userToken.replace(/^Bearer\s/, '');
-
-  return userToken;
-};
-
 export const removeUserToken = (): boolean => {
   if (!getUserToken) return false;
 
@@ -45,6 +55,10 @@ export const removeUserToken = (): boolean => {
   return true;
 };
 
+//
+//
+//
+// User Token Expires In (cookie)
 export const getUserTokenExpiresIn = (): string | undefined => {
   const userTokenExpiresIn = Cookies.get(
     configs.user.USER_TOKEN_EXPIRES_IN_NAME,
@@ -59,7 +73,14 @@ export const removeUserTokenExpiresIn = (): boolean => {
   return true;
 };
 
-export const getUserInfo = (): Required<IAuthUser> => {
+//
+//
+//
+//
+// User Info
+export const getUserInfo = (opts?: {
+  userInfoStr?: string;
+}): Required<IAuthUser> => {
   const nextInfo: Partial<IAuthUser> = {
     id: 0,
     email: '',
@@ -67,10 +88,9 @@ export const getUserInfo = (): Required<IAuthUser> => {
     name: '',
   };
 
-  // @ts-ignore
-  if (isServer()) return nextInfo;
-
-  const userInfo = localStorage.getItem(configs.user.USER_INFO_NAME);
+  // const userInfo = localStorage.getItem(configs.user.USER_INFO_NAME);
+  const userInfo =
+    opts?.userInfoStr || Cookies.get(configs.user.USER_INFO_NAME);
 
   return userInfo
     ? {
@@ -80,43 +100,33 @@ export const getUserInfo = (): Required<IAuthUser> => {
     : nextInfo;
 };
 
-export const getUserPermissions = (): string[] =>
-  getUserInfo()?.permissions || [];
-
-// UserInfo (localStorage)
 export const setUserInfo = (info: Partial<IAuthUser>) => {
-  if (isServer()) return;
+  // if (isServer()) return;
 
   if (!info) {
     errorMsg('User Info Error');
     return;
   }
 
-  localStorage.setItem(configs.user.USER_INFO_NAME, JSON.stringify(info));
-};
+  const expires = moment().add(10, 'years').toDate();
 
-export const getDiffPermissions = (oldPms: string[], newPms: string[]) => {
-  if (!newPms) return false;
-
-  if (!_.isEqual(oldPms, newPms)) {
-    // 如果两次权限不一样，需要传新的 pms 出去
-    return newPms;
-  }
-
-  return false;
+  // localStorage.setItem(configs.user.USER_INFO_NAME, JSON.stringify(info));
+  Cookies.set(configs.user.USER_INFO_NAME, JSON.stringify(info), { expires });
 };
 
 export const removeUserInfo = (): boolean => {
-  if (isServer()) return false;
-
   if (!getUserInfo()) return false;
 
-  localStorage.removeItem(configs.user.USER_INFO_NAME);
+  // localStorage.removeItem(configs.user.USER_INFO_NAME);
+  Cookies.remove(configs.user.USER_INFO_NAME);
 
   return true;
 };
 
-// UserToken + UserInfo
+//
+//
+//
+// User Remove Fn Sets.
 export const removeUser = (): boolean => {
   const removedUserInfo = removeUserInfo();
   const removedUserToken = removeUserToken();
@@ -125,15 +135,25 @@ export const removeUser = (): boolean => {
   return removedUserToken && removedUserTokenExpiresIn && removedUserInfo;
 };
 
+//
+//
+//
+// User Tools
 export const checkUserIsAvailably = (opts?: {
-  noTokenThanRemoveUser: boolean;
+  // noTokenThanRemoveUser: boolean;
+  token?: string;
+  tokenExpiresIn?: string;
 }): boolean => {
-  const userToken = getUserToken();
-  const userInfo = getUserInfo();
-  const userTokenExpiresIn = getUserTokenExpiresIn();
+  // 这里直接传 token 感觉比较奇怪，其实是在 _app.ts 初始化 store 时，
+  // 还没办法使用 userStore 的解决方案
+  if (opts?.token) return true;
+
+  const userToken = opts?.token || getUserToken();
+  // const userInfo = getUserInfo();
+  const userTokenExpiresIn = opts?.tokenExpiresIn || getUserTokenExpiresIn();
   const expired = moment().isAfter(userTokenExpiresIn);
 
-  if (!userToken || !userInfo || !userTokenExpiresIn) {
+  if (!userToken || !userTokenExpiresIn) {
     return false;
   }
 
@@ -141,7 +161,7 @@ export const checkUserIsAvailably = (opts?: {
     errorMsg('Token Expired');
   }
 
-  if (!userToken || expired || _.isEmpty(userInfo)) {
+  if (!userToken || expired) {
     removeUser();
 
     return false;
@@ -171,10 +191,17 @@ export const refreshUserInfoByApi = (): Promise<IAuthUser> =>
       .catch(handleFetchCatch);
   });
 
-//
-//
-//
-// Tools
+export const getDiffPermissions = (oldPms: string[], newPms: string[]) => {
+  if (!newPms) return false;
+
+  if (!_.isEqual(oldPms, newPms)) {
+    // 如果两次权限不一样，需要传新的 pms 出去
+    return newPms;
+  }
+
+  return false;
+};
+
 export const can = (permissionName: any): boolean => {
   if (isServer()) return false;
 
@@ -198,6 +225,10 @@ export const can = (permissionName: any): boolean => {
   return userInfo.permissions.includes(permissionName);
 };
 
+//
+//
+//
+// VisitorToken （Server 全程无需参与！Client ONLY）
 export const genVisitorToken = async (): Promise<string> => {
   if (isServer()) return '';
 

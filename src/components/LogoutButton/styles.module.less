@@ -1,0 +1,24 @@
+@import '/src/styles/variables.less';
+@import '/src/styles/mixin.less';
+
+.comp-wrapper {
+  a {
+    opacity: 0.5;
+    transition: all 0.3s;
+    color: var(--text-color);
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  svg {
+    position: relative;
+    margin-left: 4px;
+  }
+}
+
+// DARK-MODE
+.comp-wrapper--alwaysDarkMode,
+:global(.@{THEME--DARK}) .comp-wrapper {
+}

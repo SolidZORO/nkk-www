@@ -4,6 +4,7 @@ declare global {
   interface Window {
     NoCaptcha: any;
     __ROUTER_HISTORY__: NextRouter;
+    __CONFIGS__: any;
   }
 }
 

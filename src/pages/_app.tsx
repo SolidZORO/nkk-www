@@ -1,21 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
+import * as Nookies from 'nookies';
+import { Router } from 'next/router';
+import NextNprogress from 'nextjs-progressbar';
 import { ConfigProvider as AntdConfigProvider, Spin } from 'antd';
 import { HelmetProvider } from 'react-helmet-async';
-import { Router } from 'next/router';
 import { AppContextType } from 'next/dist/shared/lib/utils';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import NextNprogress from 'nextjs-progressbar';
 import zhCN from 'antd/lib/locale/zh_CN';
 
 import { StoresProvider } from '@/stores';
-import {
-  AppGlobalEvent,
-  AppGlobalFetch,
-  ErrorBoundary,
-  PageLoadingSpinner,
-} from '@/components';
 import { MasterLayout } from '@/layouts/MasterLayout/MasterLayout';
 import { AuthLayout } from '@/layouts/AuthLayout/AuthLayout';
 import { ILayout } from '@/types/comp.type';
@@ -23,8 +18,15 @@ import { configs } from '@/configs';
 import { fetcher, setFetcherToken } from '@/libs';
 import { AppStore } from '@/stores/app.store';
 import { IApiSettingAllItem } from '@/types/api';
-import { checkUserIsAvailably, getUserToken } from '@/utils/user.util';
 import { isServer } from '@/utils/env.util';
+import { UserStore } from '@/stores/user.store';
+import {
+  AppGlobalEvent,
+  AppGlobalFetch,
+  ErrorBoundary,
+  PageLoadingSpinner,
+} from '@/components';
+import { checkUserIsAvailably, getUserToken } from '@/utils/user.util';
 
 require('@/styles/global.less');
 
@@ -48,15 +50,20 @@ export const queryClient = new QueryClient({
   },
 });
 
+if (!isServer()) window.__CONFIGS__ = configs;
+
 Spin.setDefaultIndicator(<PageLoadingSpinner />);
 
 export default function CustomApp(props: ICustomApp) {
-  // 检查 user 登录状态，如果没有 token 会做一次 logout 动作
-  if (checkUserIsAvailably({ noTokenThanRemoveUser: true })) {
+  const userStore = props.pageProps?.initState?.userStore || {};
+  const { token, tokenExpiresIn } = userStore;
+
+  // 检查 user 登录状态（这里还没办法拿到 StoresProvider，只能用 hack 的方法取值）
+  if (checkUserIsAvailably({ token, tokenExpiresIn })) {
     // ⚠️
     // 由于代码部分 fetch hooks 的执行速度比 AppGlobalEvent 里的 useEffect([]) 还快
     // 所以 setFetcherToken 放在这里，保证所有 fetch 都带上 token
-    setFetcherToken(getUserToken());
+    setFetcherToken(getUserToken({ token }));
   }
 
   // 默认 Master
@@ -118,24 +125,40 @@ export default function CustomApp(props: ICustomApp) {
 // Server 在「页面刷新后」执行（一次）
 // Client 在「路由切换后」执行（多次）
 CustomApp.getInitialProps = async (app: AppContextType) => {
-  // 这里试验性的使用 Next.js 自带的 API（Server 需要从 req 里面找到 host，Client 不用）
-  // const apiUrl = `${configs.url.API_URL}/settings/all`;
-
   // 在 Client 不执行
   if (!isServer()) return {};
 
-  const host = app?.ctx?.req?.headers?.host || '';
-  const protocol =
-    host?.includes('localhost') || host?.includes('192.168') ? 'http' : 'https';
+  const apiUrl = `${configs.url.API_URL}/settings/all`;
 
-  // eslint-disable-next-line max-len
-  const apiUrl = `${protocol}://${app?.ctx?.req?.headers?.host}/api/settings/all`;
+  // 这里试验性的使用 Next.js 自带的 API（Server 需要从 req 里面找到 host，Client 不用）
+  // const host = app?.ctx?.req?.headers?.host || '';
+  // const protocol =
+  //   host?.includes('localhost') || host?.includes('192.168') ? 'http' : 'https';
+  //
+  // // eslint-disable-next-line max-len
+  // const apiUrl = `${protocol}://${app?.ctx?.req?.headers?.host}/api/settings/all`;
 
   const settingsRes: {
     data: { data: IApiSettingAllItem };
   } = await fetcher.get(apiUrl);
 
-  if (!settingsRes?.data?.data) return {};
+  /*
+   * 说明一下，Nookies 这里只是起到一个 parse 作用而已，没有别的用途了
+   *
+   * 相对于其他方案，我的思路很简单：
+   * setCookies 还是前端那一套，只不过 jwtToken 存在 Cookies 而非 LS
+   *
+   * 1. Client 登录后，会把 token 写在 Client 的 Cookies 中
+   * 2. 下次 Client 页面刷新的流程：
+   *    2.1. Client 打开 URL
+   *    2.2. Server 接到 Client 的 Req，可以拿到 token（在 Cookies 里面）
+   *         然后Server 会把 token 注入到 initState 里面
+   *         其他地方直接向 Store 拿数据判断什么的
+   * 3. Server 根据权限判断 DOM 什么的，最后渲染 DOM
+   * 4. 还有什么吗？好像就完了。实在是简简单单。
+   *
+   * */
+  const reqCookies = Nookies.parseCookies(app.ctx);
 
   return {
     pageProps: {
@@ -143,6 +166,11 @@ CustomApp.getInitialProps = async (app: AppContextType) => {
         appStore: {
           setting: settingsRes.data.data,
         } as Partial<AppStore>,
+        userStore: {
+          token: reqCookies?.[configs.user.USER_TOKEN_NAME],
+          tokenExpiresIn: reqCookies?.[configs.user.USER_TOKEN_EXPIRES_IN_NAME],
+          userInfoStr: reqCookies?.[configs.user.USER_INFO_NAME],
+        } as Partial<UserStore>,
       },
     },
   };

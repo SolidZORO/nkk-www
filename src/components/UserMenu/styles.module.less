@@ -1,0 +1,140 @@
+@import '/src/styles/variables.less';
+
+.comp-wrapper {
+  position: relative;
+  margin-right: 2px;
+  margin-left: 5px;
+}
+
+.usermenu-box {
+  width: 220px;
+  margin: -12px;
+
+  .header,
+  .container {
+    position: relative;
+    padding: 10px 20px;
+    border-bottom: 1px solid #eee;
+
+    .roles {
+      display: block;
+      text-align: center;
+      padding: 15px;
+
+      strong {
+        font-weight: 400;
+        padding: 0 2px;
+
+        &:after {
+          content: ',';
+        }
+
+        &:last-child {
+          &:after {
+            content: unset;
+          }
+        }
+      }
+    }
+
+    .version {
+      position: absolute;
+      bottom: 1px;
+      right: 1px;
+      font-size: 12px;
+      transform: scale(0.9);
+      color: #eee;
+      display: block;
+      font-family: var(--code-family);
+      text-align: center;
+    }
+  }
+
+  .header {
+    a {
+      color: @text-color;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    sup {
+      margin-left: 5px;
+    }
+  }
+
+  .container {
+  }
+
+  .footer {
+    padding: 15px 0;
+    text-align: center;
+    font-size: 14px;
+  }
+}
+
+.usermenu-button {
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  height: 40px;
+  line-height: 40px;
+
+  .user-avatar {
+    background-color: #999;
+    //background-color: var(--primary-color);
+  }
+
+  .user-name {
+    color: #555;
+    padding: 0 7px;
+  }
+
+  svg {
+    position: relative;
+    padding-left: 4px;
+    top: 3px;
+    font-size: 120%;
+    color: #999;
+  }
+}
+
+@usermenu-name-color: @text-color;
+
+.usermenu-name {
+  padding-left: 10px;
+  color: @usermenu-name-color;
+  transition: all 0.3s;
+  display: none !important;
+  font-weight: 600;
+  font-size: 16px;
+
+  @media (min-width: @screen-md) {
+    display: inline-block !important;
+  }
+}
+
+.usermenu-avatar {
+  background: #f5f5f5;
+}
+
+.safely-logout-button {
+  //top: 1px;
+  position: relative;
+  margin-left: 5px;
+}
+
+.comp-wrapper {
+  &:hover {
+    .usermenu-name {
+      transition: all 0.3s;
+      color: @text-color;
+    }
+  }
+}
+
+// DARK-MODE
+.comp-wrapper--alwaysDarkMode,
+:global(.@{THEME--DARK}) .comp-wrapper {
+}

@@ -11,12 +11,7 @@ import { setFetcherToken } from '@/libs';
 import { configs } from '@/configs';
 import { useStore } from '@/stores';
 
-import {
-  checkUserIsAvailably,
-  getVisitorToken,
-  setUserInfo,
-  setUserToken,
-} from '@/utils/user.util';
+import { getVisitorToken } from '@/utils/user.util';
 import { useMutationLogin } from '@/mutaions/auth';
 
 import styles from './styles.module.less';
@@ -30,7 +25,7 @@ let Login: React.FC<IProps> = (props) => {
 
   const loginFormRef = useRef<any>();
   const [userIsAvailable, setUserIsAvailable] = useState(
-    checkUserIsAvailably(),
+    userStore.checkUserIsAvailably(),
   );
 
   const loginMutation = useMutationLogin({
@@ -43,12 +38,12 @@ let Login: React.FC<IProps> = (props) => {
       }
 
       if (data?.token) {
-        setUserToken(data?.token, data?.tokenExpiresIn);
+        userStore.setUserToken(data?.token, data?.tokenExpiresIn);
         setFetcherToken(data?.token);
       }
 
       if (data?.user) {
-        setUserInfo(data?.user);
+        userStore.setUserInfo(data?.user);
       }
 
       // 登录成功后，mobx observer 会通知 sidebar menus 刷新权限
