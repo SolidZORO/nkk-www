@@ -96,13 +96,12 @@ export default function CustomApp(props: ICustomApp) {
               <AppGlobalEvent />
 
               <NextNprogress
-                color="#0006"
-                startPosition={0.3}
-                stopDelayMs={200}
+                color="#0003"
+                startPosition={0}
                 height={1}
                 showOnShallow
                 options={{
-                  speed: 100,
+                  speed: 180,
                   showSpinner: false,
                 }}
               />
