@@ -2,6 +2,7 @@ import React from 'react';
 import { Spin } from 'antd';
 import { HelmetProvider } from 'react-helmet-async';
 import { Router } from 'next/router';
+import { NextPageContext } from 'next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { StoresProvider } from '@/stores';
@@ -14,10 +15,11 @@ import {
 import { MasterLayout } from '@/layouts/MasterLayout/MasterLayout';
 import { AuthLayout } from '@/layouts/AuthLayout/AuthLayout';
 import { ILayout } from '@/types/comp.type';
-import { configs } from '@/configs';
+import { __env__, configs } from '@/configs';
 import { fetcher } from '@/libs';
 import { AppStore } from '@/stores/app.store';
 import { IApiSettingAllItem } from '@/types/api';
+import { AppContextType } from 'next/dist/shared/lib/utils';
 
 require('@/styles/global.less');
 
@@ -81,8 +83,16 @@ export default function CustomApp(props: ICustomApp) {
   );
 }
 
-CustomApp.getInitialProps = async () => {
-  const apiUrl = `${configs.url.API_URL}/settings/all`;
+CustomApp.getInitialProps = async ({ ctx }: AppContextType) => {
+  // 这里试验性的使用 Next.js 自带的 API（Server 需要从 req 里面找到 host，Client 不用）
+  // const apiUrl = `${configs.url.API_URL}/settings/all`;
+
+  let httpProtocol;
+  if (ctx?.req?.headers?.host?.includes('localhost')) httpProtocol = 'http';
+  else httpProtocol = 'https';
+
+  // eslint-disable-next-line max-len
+  const apiUrl = `${httpProtocol}://${ctx?.req?.headers?.host}/${__env__.NEXT_PUBLIC_API_BASE_URL}/settings/all`;
 
   const settingsRes: {
     data: { data: IApiSettingAllItem };

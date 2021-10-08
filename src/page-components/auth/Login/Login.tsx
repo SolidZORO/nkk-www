@@ -26,7 +26,6 @@ interface IProps extends IPageBaseProps {}
 // eslint-disable-next-line import/no-mutable-exports
 let Login: React.FC<IProps> = (props) => {
   const history = useRouter();
-
   const { userStore } = useStore();
 
   const loginFormRef = useRef<any>();

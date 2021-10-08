@@ -34,5 +34,9 @@ module.exports = {
       },
     ],
     'spaced-comment': 0,
+    //
+    //
+    // Next.js
+    '@next/next/no-img-element': 0,
   },
 };
