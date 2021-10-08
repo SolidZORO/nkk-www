@@ -6,6 +6,7 @@ import { Router } from 'next/router';
 import { AppContextType } from 'next/dist/shared/lib/utils';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import NextNprogress from 'nextjs-progressbar';
 import zhCN from 'antd/lib/locale/zh_CN';
 
 import { StoresProvider } from '@/stores';
@@ -93,6 +94,18 @@ export default function CustomApp(props: ICustomApp) {
 
               <AppGlobalFetch initState={props.pageProps?.initState} />
               <AppGlobalEvent />
+
+              <NextNprogress
+                color="#0006"
+                startPosition={0.3}
+                stopDelayMs={200}
+                height={1}
+                showOnShallow
+                options={{
+                  speed: 100,
+                  showSpinner: false,
+                }}
+              />
 
               {layoutDom}
             </QueryClientProvider>
