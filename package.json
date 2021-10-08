@@ -20,7 +20,7 @@
     "-------------------------------- TOOL ----": "----",
     "nuke": "rimraf .next && rimraf .next && rimraf yarn.lock && rimraf node_modules && yarn",
     "clear": "rimraf .next",
-    "build-icons": "react-icons-builder --src ./src/assets/images/icons --dist ./src/libs/react-icons-ext",
+    "build-icons": "react-icons-builder --src ./src/assets/icons --dist ./src/libs/react-icons-ext",
     "-------------------------------- VERSIVE ----": "----",
     "versionup": "standard-version -r patch",
     "versionup:minor": "standard-version -r minor",

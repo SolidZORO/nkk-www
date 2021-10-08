@@ -5,8 +5,8 @@ import { SpinProps, SpinSize } from 'antd/lib/spin';
 
 import { ICompBaseProps } from '@/types';
 
-// import { CgSpinner as Spinner } from 'react-icons/cg';
-import { ReactComponent as Spinner } from './_spinner.svg';
+// eslint-disable-next-line max-len
+import { ReactComponent as Spinner } from '@/assets/icons/comps/page-loading-spinner.svg';
 
 import styles from './styles.module.less';
 
@@ -21,8 +21,8 @@ interface IProps extends ICompBaseProps, SpinProps {
   iconClassName?: string;
 }
 
-export const LoadingSpinner: React.FC<IProps> = (props) => {
-  LoadingSpinner.displayName = 'LoadingSpinner';
+export const PageLoadingSpinner: React.FC<IProps> = (props) => {
+  PageLoadingSpinner.displayName = 'LoadingSpinner';
 
   const iconSize = props.size || 'default';
 
@@ -36,7 +36,7 @@ export const LoadingSpinner: React.FC<IProps> = (props) => {
           [styles['comp-wrapper--lazy']]: !!props.lazy,
         },
         props.className,
-        `g-comp--${LoadingSpinner.displayName}`,
+        `g-comp--${PageLoadingSpinner.displayName}`,
       )}
       style={props.style}
     >

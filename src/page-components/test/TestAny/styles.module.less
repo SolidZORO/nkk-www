@@ -1,0 +1,78 @@
+@import '/src/styles/variables.less';
+@import '/src/styles/mixin.less';
+
+.comp-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  place-items: center;
+  //
+  min-height: 70vh;
+  height: calc(100vh - 146px);
+}
+
+.site-name {
+  opacity: 0;
+  text-indent: -999em;
+  height: 0;
+}
+
+.banner {
+  display: block;
+  color: var(--text-color);
+  padding: 0;
+  width: 100%;
+  text-align: center;
+
+  // > iPhone 5
+  @media (min-width: 321px) {
+    padding: 0 20px;
+  }
+
+  h2,
+  h3 {
+    color: var(--text-color);
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    margin-top: 30px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #777;
+  }
+
+  svg {
+    font-size: 10rem;
+  }
+
+  code {
+    //margin-top: 5px;
+    margin-top: -10px;
+    display: block;
+    padding: 20px;
+    font-size: 30px;
+    font-weight: 600;
+    //opacity: 0.5;
+    white-space: pre-wrap;
+    word-break: break-all;
+    transform-origin: center;
+    font-family: var(--price-family);
+  }
+}
+
+.block--footer {
+  //margin-top: 220px;
+}
+
+// DARK-MODE--COMP
+.comp-wrapper--alwaysDarkMode,
+:global(.@{THEME--DARK}) .comp-wrapper {
+}

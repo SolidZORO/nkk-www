@@ -4,7 +4,8 @@ import cx from 'classnames';
 import { Button, ButtonProps } from 'antd';
 import { SpinSize } from 'antd/lib/spin';
 
-import { LoadingSpinner } from '@/components';
+// eslint-disable-next-line max-len
+import { ReactComponent as Spinner } from '@/assets/icons/comps/page-loading-spinner.svg';
 
 import styles from './styles.module.less';
 
@@ -25,7 +26,7 @@ export const LoadingButton: React.FC<IProps> = (props) => {
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...buttonProps}
       loading={false}
-      icon={props.loading ? null : props.icon}
+      icon={props.loading ? <span /> : props.icon}
       type={props.type || 'primary'}
       className={cx(
         styles['loading-button'],
@@ -38,10 +39,7 @@ export const LoadingButton: React.FC<IProps> = (props) => {
       style={props.style}
     >
       {props.loading ? (
-        <LoadingSpinner
-          size={iconSize}
-          iconClassName={cx(styles['spin-icon'])}
-        />
+        <Spinner className={cx('g-icon-spin')} />
       ) : (
         props.children
       )}

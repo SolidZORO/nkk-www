@@ -24,3 +24,5 @@ CHANGELOG.md
 /public
 /static
 /src/assets
+
+/src/libs/react-icons-ext/**/*

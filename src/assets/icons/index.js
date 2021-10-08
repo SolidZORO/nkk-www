@@ -7,7 +7,7 @@ module.exports = {
       name: 'LocalIcon',
       contents: [
         {
-          files: path.resolve(__dirname, './*.svg'),
+          files: path.resolve(__dirname, './li/*.svg'),
           formatter: (name) => `Li${name}`,
         },
       ],

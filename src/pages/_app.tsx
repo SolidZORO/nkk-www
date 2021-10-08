@@ -1,26 +1,28 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
-import { Spin } from 'antd';
+import React, { useState } from 'react';
+import { ConfigProvider as AntdConfigProvider, Spin } from 'antd';
 import { HelmetProvider } from 'react-helmet-async';
 import { Router } from 'next/router';
 import { AppContextType } from 'next/dist/shared/lib/utils';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import zhCN from 'antd/lib/locale/zh_CN';
 
 import { StoresProvider } from '@/stores';
 import {
   AppGlobalEvent,
   AppGlobalFetch,
   ErrorBoundary,
-  LoadingSpinner,
+  PageLoadingSpinner,
 } from '@/components';
 import { MasterLayout } from '@/layouts/MasterLayout/MasterLayout';
 import { AuthLayout } from '@/layouts/AuthLayout/AuthLayout';
 import { ILayout } from '@/types/comp.type';
 import { configs } from '@/configs';
-import { fetcher } from '@/libs';
+import { fetcher, setFetcherToken } from '@/libs';
 import { AppStore } from '@/stores/app.store';
 import { IApiSettingAllItem } from '@/types/api';
+import { checkUserIsAvailably, getUserToken } from '@/utils/user.util';
 import { isServer } from '@/utils/env.util';
 
 require('@/styles/global.less');
@@ -45,9 +47,19 @@ export const queryClient = new QueryClient({
   },
 });
 
-Spin.setDefaultIndicator(<LoadingSpinner />);
+Spin.setDefaultIndicator(<PageLoadingSpinner />);
 
 export default function CustomApp(props: ICustomApp) {
+  const [lang] = useState(zhCN);
+
+  // 检查 user 登录状态，如果没有 token 会做一次 logout 动作
+  if (checkUserIsAvailably({ noTokenThanRemoveUser: true })) {
+    // ⚠️
+    // 由于代码部分 fetch hooks 的执行速度比 AppGlobalEvent 里的 useEffect([]) 还快
+    // 所以 setFetcherToken 放在这里，保证所有 fetch 都带上 token
+    setFetcherToken(getUserToken());
+  }
+
   // 默认 Master
   let layoutDom = (
     <MasterLayout
@@ -70,23 +82,25 @@ export default function CustomApp(props: ICustomApp) {
 
   return (
     <ErrorBoundary>
-      <HelmetProvider>
-        <StoresProvider {...props.pageProps}>
-          <QueryClientProvider client={queryClient}>
-            {configs.app.__DEV__ ? (
-              <ReactQueryDevtools
-                initialIsOpen={false}
-                position="bottom-right"
-              />
-            ) : null}
+      <AntdConfigProvider locale={lang}>
+        <HelmetProvider>
+          <StoresProvider {...props.pageProps}>
+            <QueryClientProvider client={queryClient}>
+              {configs.app.__DEV__ ? (
+                <ReactQueryDevtools
+                  initialIsOpen={false}
+                  position="bottom-right"
+                />
+              ) : null}
 
-            <AppGlobalFetch initState={props.pageProps?.initState} />
-            <AppGlobalEvent />
+              <AppGlobalFetch initState={props.pageProps?.initState} />
+              <AppGlobalEvent />
 
-            {layoutDom}
-          </QueryClientProvider>
-        </StoresProvider>
-      </HelmetProvider>
+              {layoutDom}
+            </QueryClientProvider>
+          </StoresProvider>
+        </HelmetProvider>
+      </AntdConfigProvider>
     </ErrorBoundary>
   );
 }
