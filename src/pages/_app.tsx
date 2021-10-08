@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React from 'react';
 import { ConfigProvider as AntdConfigProvider, Spin } from 'antd';
 import { HelmetProvider } from 'react-helmet-async';
 import { Router } from 'next/router';
@@ -50,8 +50,6 @@ export const queryClient = new QueryClient({
 Spin.setDefaultIndicator(<PageLoadingSpinner />);
 
 export default function CustomApp(props: ICustomApp) {
-  const [lang] = useState(zhCN);
-
   // 检查 user 登录状态，如果没有 token 会做一次 logout 动作
   if (checkUserIsAvailably({ noTokenThanRemoveUser: true })) {
     // ⚠️
@@ -82,7 +80,7 @@ export default function CustomApp(props: ICustomApp) {
 
   return (
     <ErrorBoundary>
-      <AntdConfigProvider locale={lang}>
+      <AntdConfigProvider locale={zhCN}>
         <HelmetProvider>
           <StoresProvider {...props.pageProps}>
             <QueryClientProvider client={queryClient}>

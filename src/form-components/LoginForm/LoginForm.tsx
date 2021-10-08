@@ -1,10 +1,10 @@
-import { observer } from 'mobx-react';
 import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
   useState,
 } from 'react';
+import { observer } from 'mobx-react';
 import { Form, Input, Tooltip } from 'antd';
 
 import { ICompBaseProps } from '@/types';
@@ -43,7 +43,7 @@ let LoginForm: React.FC<IProps> = forwardRef((props, ref) => {
     getVisitorToken().then((t: string) => {
       setToken(t);
     });
-  });
+  }, []);
 
   useImperativeHandle(ref, () => ({ form, refetchCaptcha }));
 

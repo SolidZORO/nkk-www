@@ -9,7 +9,6 @@ export class UserStore {
     makeAutoObservable(this);
   }
 
-  // @action
   setPermissions(permissions: string[]) {
     this.permissions = permissions;
 
