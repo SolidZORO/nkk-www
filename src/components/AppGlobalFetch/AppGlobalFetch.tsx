@@ -4,6 +4,7 @@ import { useStore } from '@/stores';
 import { useQueryAllSetting } from '@/querys/setting';
 
 interface IProps {
+  initState?: any;
   children?: React.ReactNode | any;
 }
 
@@ -15,6 +16,8 @@ let AppGlobalFetch: React.FC<IProps> = (props) => {
     onSuccess: (data) => {
       appStore.setSetting(data);
     },
+    // initialData: props.initState?.appStore?.setting,
+    // enabled: Boolean(!props.initState?.appStore?.setting?.site_name),
   });
 
   return props.children || null;

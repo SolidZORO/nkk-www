@@ -21,7 +21,7 @@ export function useQueryAllSetting(
         .catch(handleFetchCatch),
     // @ts-ignore
     {
-      staleTime: configs.rq.STALETIME_MOMENT,
+      // staleTime: configs.rq.STALETIME_INFINITY,
       ...rqOpts,
     },
   );

@@ -6,9 +6,11 @@ import { ICompBaseProps } from '@/types';
 
 import styles from './styles.module.less';
 
-interface IProps extends ICompBaseProps {
+type _ICompBaseProps = ICompBaseProps & Partial<HTMLAnchorElement>;
+
+interface IProps extends _ICompBaseProps {
   href: string;
-  children?: any;
+  children: any;
   // type?: 'push' | 'replace';
   // onClick?: (e?: any) => void;
   // disabledLink?: boolean;
@@ -27,6 +29,8 @@ export const SmartLink: React.FC<IProps> = (props) => {
           props.className,
         )}
         style={props.style}
+        target={props.target}
+        rel={props.rel}
       >
         {props.children}
       </a>

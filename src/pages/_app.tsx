@@ -1,9 +1,11 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Spin } from 'antd';
 import { HelmetProvider } from 'react-helmet-async';
 import { Router } from 'next/router';
-import { NextPageContext } from 'next';
+import { AppContextType } from 'next/dist/shared/lib/utils';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { StoresProvider } from '@/stores';
 import {
@@ -15,19 +17,13 @@ import {
 import { MasterLayout } from '@/layouts/MasterLayout/MasterLayout';
 import { AuthLayout } from '@/layouts/AuthLayout/AuthLayout';
 import { ILayout } from '@/types/comp.type';
-import { __env__, configs } from '@/configs';
+import { configs } from '@/configs';
 import { fetcher } from '@/libs';
 import { AppStore } from '@/stores/app.store';
 import { IApiSettingAllItem } from '@/types/api';
-import { AppContextType } from 'next/dist/shared/lib/utils';
+import { isServer } from '@/utils/env.util';
 
 require('@/styles/global.less');
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: { refetchOnWindowFocus: false },
-  },
-});
 
 export interface ICustomApp {
   Component: React.FC & {
@@ -42,6 +38,12 @@ export interface ICustomApp {
   router: Router;
   err?: Error;
 }
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { refetchOnWindowFocus: false },
+  },
+});
 
 Spin.setDefaultIndicator(<LoadingSpinner />);
 
@@ -69,13 +71,19 @@ export default function CustomApp(props: ICustomApp) {
   return (
     <ErrorBoundary>
       <HelmetProvider>
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <StoresProvider {...props.pageProps}>
           <QueryClientProvider client={queryClient}>
-            <AppGlobalFetch />
+            {configs.app.__DEV__ ? (
+              <ReactQueryDevtools
+                initialIsOpen={false}
+                position="bottom-right"
+              />
+            ) : null}
+
+            <AppGlobalFetch initState={props.pageProps?.initState} />
             <AppGlobalEvent />
 
-            {layoutDom || <span />}
+            {layoutDom}
           </QueryClientProvider>
         </StoresProvider>
       </HelmetProvider>
@@ -83,16 +91,21 @@ export default function CustomApp(props: ICustomApp) {
   );
 }
 
-CustomApp.getInitialProps = async ({ ctx }: AppContextType) => {
+// Server 在「页面刷新后」执行（一次）
+// Client 在「路由切换后」执行（多次）
+CustomApp.getInitialProps = async (app: AppContextType) => {
   // 这里试验性的使用 Next.js 自带的 API（Server 需要从 req 里面找到 host，Client 不用）
   // const apiUrl = `${configs.url.API_URL}/settings/all`;
 
-  let httpProtocol;
-  if (ctx?.req?.headers?.host?.includes('localhost')) httpProtocol = 'http';
-  else httpProtocol = 'https';
+  // 在 Client 不执行
+  if (!isServer()) return {};
+
+  const host = app?.ctx?.req?.headers?.host || '';
+  const protocol =
+    host?.includes('localhost') || host?.includes('192.168') ? 'http' : 'https';
 
   // eslint-disable-next-line max-len
-  const apiUrl = `${httpProtocol}://${ctx?.req?.headers?.host}/${__env__.NEXT_PUBLIC_API_BASE_URL}/settings/all`;
+  const apiUrl = `${protocol}://${app?.ctx?.req?.headers?.host}/api/settings/all`;
 
   const settingsRes: {
     data: { data: IApiSettingAllItem };

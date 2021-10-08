@@ -32,6 +32,7 @@ let Home: React.FC<IProps> = (props) => {
         <h2>
           <RiHomeLine />
         </h2>
+
         <code>{appStore.setting?.site_name}</code>
       </div>
     </PageWrapper>
