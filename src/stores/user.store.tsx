@@ -1,13 +1,14 @@
+import _ from 'lodash';
 import { makeAutoObservable } from 'mobx';
 
-import {
-  checkUserIsAvailably,
-  getUserInfo,
-  removeUser,
-  setUserInfo,
-  setUserToken,
-} from '@/utils/user.util';
 import { IAuthUser } from '@/types';
+import {
+  checkCookieUserIsAvailably,
+  getCookieUserInfo,
+  clearCookieUser,
+  setCookieUserInfo,
+  setCookieUserToken,
+} from '@/utils/user.util';
 
 export class UserStore {
   permissions: string[] = [];
@@ -27,7 +28,7 @@ export class UserStore {
 
     // @ts-ignore 这里故意传了一个 Str 后缀的
     if (initData?.userStore?.userInfoStr) {
-      const userInfo = getUserInfo({
+      const userInfo = getCookieUserInfo({
         // @ts-ignore
         userInfoStr: initData.userStore.userInfoStr,
       });
@@ -38,7 +39,7 @@ export class UserStore {
   }
 
   checkUserIsAvailably() {
-    return checkUserIsAvailably({
+    return checkCookieUserIsAvailably({
       token: this.token,
       tokenExpiresIn: this.tokenExpiresIn,
     });
@@ -52,25 +53,32 @@ export class UserStore {
     return Promise.resolve(permissions);
   }
 
-  removeUser() {
+  clearUser() {
     this.permissions = [];
     this.token = '';
     this.tokenExpiresIn = '';
     this.userInfo = null;
 
-    removeUser();
+    clearCookieUser();
   }
 
   setUserInfo(userInfo: Partial<IAuthUser>) {
     this.userInfo = userInfo;
 
-    setUserInfo(userInfo);
+    setCookieUserInfo(userInfo);
   }
 
   setUserToken(token: string, expiresIn: string) {
     this.token = token;
     this.tokenExpiresIn = expiresIn;
 
-    setUserToken(token, expiresIn);
+    setCookieUserToken(token, expiresIn);
+  }
+
+  can(permissionName?: any) {
+    if (!permissionName || !this.userInfo) return false;
+    if (!this.permissions || _.isEmpty(this.permissions)) return false;
+
+    return this.permissions.includes(permissionName);
   }
 }

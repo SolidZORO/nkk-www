@@ -11,7 +11,7 @@ import { ICompBaseProps } from '@/types';
 import { IApiUserItem } from '@/types/api';
 import { useStore } from '@/stores';
 import { useQueryItemCaptcha } from '@/querys/captcha';
-import { getVisitorToken } from '@/utils/user.util';
+import { getCookieVisitorToken } from '@/utils/user.util';
 
 import styles from './styles.module.less';
 
@@ -40,7 +40,7 @@ let LoginForm: React.FC<IProps> = forwardRef((props, ref) => {
 
   useEffect(() => {
     // token 需要只能异步获取，获取完成后再发起 query 验证码
-    getVisitorToken().then((t: string) => {
+    getCookieVisitorToken().then((t: string) => {
       setToken(t);
     });
   }, []);

@@ -20,7 +20,7 @@ export const LogoutButton: React.FC<IProps> = (props) => {
   const history = useRouter();
 
   const onLogout = () => {
-    userStore.removeUser();
+    userStore.clearUser();
 
     history.push(configs.url.LOGIN);
   };

@@ -6,23 +6,25 @@ import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import { configs } from '@/configs';
 import { IAuthUser } from '@/types';
 import { errorMsg, handleFetchCatch } from '@/utils/msg.util';
-// eslint-disable-next-line import/no-cycle
 import { fetcher } from '@/libs';
 import { IFetcherResItem } from '@/types/api';
 import { isServer } from '@/utils/env.util';
 
-//
-//
-//
-// User Token (cookie)
-export const getUserToken = (
+/*
+|-------------------------------------------------------------------------------
+| User Token
+|-------------------------------------------------------------------------------
+|
+*/
+
+export const getCookieUserToken = (
   opts: { onlyToken?: boolean; token?: string | null } = {
     onlyToken: false,
     token: null,
   },
 ): string => {
-  // 这里直接传 token 感觉比较奇怪，其实是在 _app.ts 初始化 store 时，
-  // 还没办法使用 userStore 的解决方案
+  // 这里直接传 token 感觉比较奇怪，但是在 _app.ts 初始化时，useStore 还不能用
+  // 所以，就拿 initState 的 token 直接传进来判断
   const userToken = opts?.token || Cookies.get(configs.user.USER_TOKEN_NAME);
 
   if (!userToken) {
@@ -35,7 +37,7 @@ export const getUserToken = (
   return userToken;
 };
 
-export const setUserToken = (token: string, expiresIn: string) => {
+export const setCookieUserToken = (token: string, expiresIn: string) => {
   if (!token || !expiresIn) {
     errorMsg('Auth Token Error');
     return;
@@ -47,19 +49,22 @@ export const setUserToken = (token: string, expiresIn: string) => {
   Cookies.set(configs.user.USER_TOKEN_EXPIRES_IN_NAME, expiresIn, { expires });
 };
 
-export const removeUserToken = (): boolean => {
-  if (!getUserToken) return false;
+export const removeCookieUserToken = (): boolean => {
+  if (!getCookieUserToken) return false;
 
   Cookies.remove(configs.user.USER_TOKEN_NAME);
 
   return true;
 };
 
-//
-//
-//
-// User Token Expires In (cookie)
-export const getUserTokenExpiresIn = (): string | undefined => {
+/*
+|-------------------------------------------------------------------------------
+| User Token Expires
+|-------------------------------------------------------------------------------
+|
+*/
+
+export const getCookieUserTokenExpiresIn = (): string | undefined => {
   const userTokenExpiresIn = Cookies.get(
     configs.user.USER_TOKEN_EXPIRES_IN_NAME,
   );
@@ -67,18 +72,24 @@ export const getUserTokenExpiresIn = (): string | undefined => {
   return !userTokenExpiresIn ? undefined : userTokenExpiresIn;
 };
 
-export const removeUserTokenExpiresIn = (): boolean => {
+export const removeCookieUserTokenExpiresIn = (): boolean => {
   Cookies.remove(configs.user.USER_TOKEN_EXPIRES_IN_NAME);
 
   return true;
 };
 
-//
-//
-//
-//
-// User Info
-export const getUserInfo = (opts?: {
+/*
+|-------------------------------------------------------------------------------
+| User Info
+|-------------------------------------------------------------------------------
+|
+*/
+
+export const getCookieUserInfoStr = (userInfoStr?: string) => {
+  return userInfoStr || Cookies.get(configs.user.USER_INFO_NAME);
+};
+
+export const getCookieUserInfo = (opts?: {
   userInfoStr?: string;
 }): Required<IAuthUser> => {
   const nextInfo: Partial<IAuthUser> = {
@@ -88,21 +99,17 @@ export const getUserInfo = (opts?: {
     name: '',
   };
 
-  // const userInfo = localStorage.getItem(configs.user.USER_INFO_NAME);
-  const userInfo =
-    opts?.userInfoStr || Cookies.get(configs.user.USER_INFO_NAME);
+  const userInfoStr = getCookieUserInfoStr(opts?.userInfoStr);
 
-  return userInfo
+  return userInfoStr
     ? {
         ...nextInfo,
-        ...JSON.parse(userInfo),
+        ...JSON.parse(userInfoStr),
       }
     : nextInfo;
 };
 
-export const setUserInfo = (info: Partial<IAuthUser>) => {
-  // if (isServer()) return;
-
+export const setCookieUserInfo = (info: Partial<IAuthUser>) => {
   if (!info) {
     errorMsg('User Info Error');
     return;
@@ -110,59 +117,57 @@ export const setUserInfo = (info: Partial<IAuthUser>) => {
 
   const expires = moment().add(10, 'years').toDate();
 
-  // localStorage.setItem(configs.user.USER_INFO_NAME, JSON.stringify(info));
   Cookies.set(configs.user.USER_INFO_NAME, JSON.stringify(info), { expires });
 };
 
-export const removeUserInfo = (): boolean => {
-  if (!getUserInfo()) return false;
+export const removeCookieUserInfo = (): boolean => {
+  if (!getCookieUserInfo()) return false;
 
-  // localStorage.removeItem(configs.user.USER_INFO_NAME);
   Cookies.remove(configs.user.USER_INFO_NAME);
 
   return true;
 };
 
-//
-//
-//
-// User Remove Fn Sets.
-export const removeUser = (): boolean => {
-  const removedUserInfo = removeUserInfo();
-  const removedUserToken = removeUserToken();
-  const removedUserTokenExpiresIn = removeUserTokenExpiresIn();
+export const clearCookieUser = (): boolean => {
+  const removedUserInfo = removeCookieUserInfo();
+  const removedUserToken = removeCookieUserToken();
+  const removedUserTokenExpiresIn = removeCookieUserTokenExpiresIn();
 
   return removedUserToken && removedUserTokenExpiresIn && removedUserInfo;
 };
 
-//
-//
-//
-// User Tools
-export const checkUserIsAvailably = (opts?: {
-  // noTokenThanRemoveUser: boolean;
+/*
+|-------------------------------------------------------------------------------
+| Tools
+|-------------------------------------------------------------------------------
+|
+*/
+
+export const checkCookieUserIsAvailably = (opts?: {
   token?: string;
   tokenExpiresIn?: string;
+  userInfoStr?: string;
 }): boolean => {
-  // 这里直接传 token 感觉比较奇怪，其实是在 _app.ts 初始化 store 时，
-  // 还没办法使用 userStore 的解决方案
+  // 这里直接传 token 感觉比较奇怪，但是在 _app.ts 初始化时，useStore 还不能用
+  // 所以，就拿 initState 的 token 直接传进来判断
   if (opts?.token) return true;
 
-  const userToken = opts?.token || getUserToken();
-  // const userInfo = getUserInfo();
-  const userTokenExpiresIn = opts?.tokenExpiresIn || getUserTokenExpiresIn();
+  const userToken = opts?.token || getCookieUserToken();
+  const userInfo = getCookieUserInfo({ userInfoStr: opts?.userInfoStr });
+  const userTokenExpiresIn =
+    opts?.tokenExpiresIn || getCookieUserTokenExpiresIn();
   const expired = moment().isAfter(userTokenExpiresIn);
 
-  if (!userToken || !userTokenExpiresIn) {
+  if (!userToken || !userInfo || !userTokenExpiresIn) {
     return false;
   }
 
-  if (userToken && expired) {
+  if ((userToken && expired) || _.isEmpty(userInfo)) {
     errorMsg('Token Expired');
   }
 
   if (!userToken || expired) {
-    removeUser();
+    clearCookieUser();
 
     return false;
   }
@@ -184,7 +189,7 @@ export const refreshUserInfoByApi = (): Promise<IAuthUser> =>
         }
 
         const info = res.data.data;
-        if (info) setUserInfo(info);
+        if (info) setCookieUserInfo(info);
 
         resolve(info);
       })
@@ -202,33 +207,15 @@ export const getDiffPermissions = (oldPms: string[], newPms: string[]) => {
   return false;
 };
 
-export const can = (permissionName: any): boolean => {
-  if (isServer()) return false;
+/*
+|-------------------------------------------------------------------------------
+| VisitorToken
+|-------------------------------------------------------------------------------
+|
+| ⚠️ Client ONLY，Server 全程无需参与
+|
+*/
 
-  const userInfoString = localStorage.getItem(configs.user.USER_INFO_NAME);
-
-  if (!userInfoString || !permissionName) return false;
-
-  let userInfo: IAuthUser;
-
-  try {
-    userInfo = JSON.parse(userInfoString);
-  } catch (err) {
-    console.error(err);
-
-    return false;
-  }
-
-  if (!userInfo) return false;
-  if (!userInfo.permissions || _.isEmpty(userInfo.permissions)) return false;
-
-  return userInfo.permissions.includes(permissionName);
-};
-
-//
-//
-//
-// VisitorToken （Server 全程无需参与！Client ONLY）
 export const genVisitorToken = async (): Promise<string> => {
   if (isServer()) return '';
 
@@ -240,25 +227,18 @@ export const genVisitorToken = async (): Promise<string> => {
 };
 
 // 初始化的时候设置浏览器唯一指纹（主要用于登录时获取验证码 Captcha）
-// 在 App 中使用
-export const setVisitorToken = async () => {
+export const setCookieVisitorToken = async () => {
   const token = await genVisitorToken();
   const expires = moment().add(1, 'years').toDate();
 
-  Cookies.set(configs.user.VISITOR_TOKEN_NAME, token, {
-    expires,
-  });
+  Cookies.set(configs.user.VISITOR_TOKEN_NAME, token, { expires });
 
   return token;
 };
 
-// 初始化的时候设置浏览器唯一指纹（主要用于登录时获取验证码 Captcha）
-export const getVisitorToken = async (): Promise<string> => {
+export const getCookieVisitorToken = async (): Promise<string> => {
   let visitorToken = Cookies.get(configs.user.VISITOR_TOKEN_NAME);
-
-  if (!visitorToken) {
-    visitorToken = await setVisitorToken();
-  }
+  if (!visitorToken) visitorToken = await setCookieVisitorToken();
 
   return visitorToken;
 };

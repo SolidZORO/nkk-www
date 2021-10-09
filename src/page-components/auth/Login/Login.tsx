@@ -11,7 +11,7 @@ import { setFetcherToken } from '@/libs';
 import { configs } from '@/configs';
 import { useStore } from '@/stores';
 
-import { getVisitorToken } from '@/utils/user.util';
+import { getCookieVisitorToken } from '@/utils/user.util';
 import { useMutationLogin } from '@/mutaions/auth';
 
 import styles from './styles.module.less';
@@ -30,7 +30,6 @@ let Login: React.FC<IProps> = (props) => {
 
   const loginMutation = useMutationLogin({
     onSuccess: (data) => {
-      // setSubmitLoading(false);
       if (!data?.token) {
         loginFormRef.current.form.setFieldsValue({ captcha: '' });
         loginFormRef.current.refetchCaptcha();
@@ -72,7 +71,7 @@ let Login: React.FC<IProps> = (props) => {
 
     return loginMutation.mutate({
       ...formData,
-      token: await getVisitorToken(),
+      token: await getCookieVisitorToken(),
     });
   };
 

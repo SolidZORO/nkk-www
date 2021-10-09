@@ -16,13 +16,14 @@ const allStores = (initData?: any) => ({
 });
 
 let stores: any = null;
+
 export const StoreContext = createContext(allStores());
 
 const initStore = (initData = {}) => {
   // 每个 store 会找 initData 的值初始化
   const _stores = stores ?? allStores(initData);
 
-  // for SSG and SSR always create a new store
+  // for SSR (or SSG, always create a new store)
   if (isServer()) return _stores;
 
   // for CSR
@@ -31,14 +32,14 @@ const initStore = (initData = {}) => {
   return _stores;
 };
 
-export const StoresProvider: React.FC = (props?: {
-  children?: any;
+export const StoreProvider: React.FC<{
   initState?: any;
-}) => {
-  const _stores = initStore(props?.initState);
+  children?: any;
+}> = (props) => {
+  const value = initStore(props?.initState);
 
   return (
-    <StoreContext.Provider value={_stores}>
+    <StoreContext.Provider value={value}>
       {props?.children}
     </StoreContext.Provider>
   );

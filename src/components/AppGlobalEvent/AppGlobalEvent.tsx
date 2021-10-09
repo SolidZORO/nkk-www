@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import { setVisitorToken } from '@/utils/user.util';
+import { setCookieVisitorToken } from '@/utils/user.util';
 import { isServer } from '@/utils/env.util';
 import { DISABLE_SSR_TRANSITION } from '@/pages/_document';
 
@@ -26,7 +26,7 @@ let AppGlobalEvent: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     avoidCssAnimationFlashing();
-    setVisitorToken();
+    setCookieVisitorToken();
 
     // 全局共享 history 方法（按照 react-router 的习惯，依然叫 history）
     window.__ROUTER_HISTORY__ = router;
