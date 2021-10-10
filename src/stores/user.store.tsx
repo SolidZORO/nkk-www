@@ -9,6 +9,7 @@ import {
   setCookieUserInfo,
   setCookieUserToken,
 } from '@/utils/user.util';
+import { clearAxiosToken } from '@/libs/axios.lib';
 
 export class UserStore {
   permissions: string[] = [];
@@ -59,6 +60,7 @@ export class UserStore {
     this.tokenExpiresIn = '';
     this.userInfo = null;
 
+    clearAxiosToken();
     clearCookieUser();
   }
 

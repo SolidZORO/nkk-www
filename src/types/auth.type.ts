@@ -15,3 +15,17 @@ export type ILoginRes = {
   token: string;
   tokenExpiresIn: string;
 };
+
+
+
+
+export type IJoinReq = {
+  account: string; // email or phone
+  password: string;
+};
+
+export type IJoinRes = {
+  user: IApiUserItem;
+  token: string;
+  tokenExpiresIn: string;
+};

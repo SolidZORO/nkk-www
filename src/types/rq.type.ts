@@ -1,38 +1,57 @@
 import { AxiosError } from 'axios';
-import { UseQueryOptions } from 'react-query';
+import { UseMutationOptions, UseQueryOptions } from 'react-query';
 
 // eslint-disable-next-line import/no-cycle
 import { IApiResItemData, IApiResListData } from '@/types/api';
 
-export interface UseQueryOptionsExt {
+/*
+|-------------------------------------------------------------------------------
+| Query
+|-------------------------------------------------------------------------------
+|
+*/
+
+export interface IRqUseQueryOptionsExt {
   disabledErrorMsg?: boolean;
   disabledSuccessMsg?: boolean;
 }
 
-// Rq Query List 列表
-export type IRqListOpts<TData> = UseQueryOptions<
-  //
-  // TQueryFnData: 指 fetch 要返回的数据，handle 之后也算
-  Promise<IApiResListData<TData> | undefined | void>,
-  //
-  // TError: 指 fetch 的 catch 部分
+// Query List
+export type IRqQueryListOpts<TData, TQueryKey = any> = UseQueryOptions<
+  Promise<IApiResListData<TData> | undefined | void>, // fetch 要返回的数据，handle 之后也算
   AxiosError,
-  //
-  // TData: 指 const { data } = useQuery() 中的 data
-  IApiResListData<TData>
+  IApiResListData<TData>, // <--- 这里是 List
+  [string, TQueryKey] // 对应 useQuery 的 [apiUrl, params]
 > &
-  UseQueryOptionsExt;
+  IRqUseQueryOptionsExt;
 
-// Rq Query Item 条目
-export type IRqItemOpts<TData> = UseQueryOptions<
-  //
-  // TQueryFnData: 指 fetch 要返回的数据，handle 之后也算
+// Query Item
+export type IRqQueryItemOpts<TData, TQueryKey = any> = UseQueryOptions<
   Promise<IApiResItemData<TData> | undefined | void>,
-  //
-  // TError: 指 fetch 的 catch 部分
   AxiosError,
-  //
-  // TData: 指 const { data } = useQuery() 中的 data
-  IApiResItemData<TData>
+  IApiResItemData<TData>, // <--- 这里是 Item
+  [string, TQueryKey]
 > &
-  UseQueryOptionsExt;
+  IRqUseQueryOptionsExt;
+
+/*
+|-------------------------------------------------------------------------------
+| Mut
+|-------------------------------------------------------------------------------
+|
+*/
+
+export interface IRqUseMutationOptionsExt {
+  disabledErrorMsg?: boolean;
+  disabledSuccessMsg?: boolean;
+}
+
+// Mut List（Mut 都是 Item，没有 List）
+
+// Mut Item
+export type IRqMutItemOpts<TData, TVariables = void> = UseMutationOptions<
+  TData | undefined | void, // Query 有区别，Axios 返回什么就用什么
+  AxiosError,
+  TVariables // 这其实是 .post() 的 data
+> &
+  IRqUseMutationOptionsExt;

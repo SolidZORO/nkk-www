@@ -6,33 +6,33 @@ import { Button } from 'antd';
 
 import { ILoginReq, IPageBaseProps } from '@/types';
 import { HtmlMeta, LoadingButton, PageWrapper, SmartLink } from '@/components';
-import { LoginForm } from '@/form-components';
+import { JoinForm } from '@/form-components';
 import { setAxiosToken } from '@/libs/axios.lib';
 import { configs } from '@/configs';
 import { useStore } from '@/stores';
 
 import { getCookieVisitorToken } from '@/utils/user.util';
-import { useMutationLogin } from '@/mutaions/auth';
+import { useMutationJoin, useMutationLogin } from '@/mutaions/auth';
 
 import styles from './styles.module.less';
 
 interface IProps extends IPageBaseProps {}
 
 // eslint-disable-next-line import/no-mutable-exports
-let Login: React.FC<IProps> = (props) => {
+let Join: React.FC<IProps> = (props) => {
   const history = useRouter();
   const { userStore } = useStore();
 
-  const loginFormRef = useRef<any>();
+  const joinFormRef = useRef<any>();
   const [userIsAvailable, setUserIsAvailable] = useState(
     userStore.checkUserIsAvailably(),
   );
 
-  const loginMutation = useMutationLogin({
-    onSuccess: (data) => {
-      if (!data || !data.token) {
-        loginFormRef.current.form.setFieldsValue({ captcha: '' });
-        loginFormRef.current.refetchCaptcha();
+  const joinMutation = useMutationJoin({
+    onSuccess: (data: any) => {
+      if (!data?.token) {
+        joinFormRef.current.form.setFieldsValue({ captcha: '' });
+        joinFormRef.current.refetchCaptcha();
         return;
       }
 
@@ -64,14 +64,13 @@ let Login: React.FC<IProps> = (props) => {
     let formData: ILoginReq;
 
     try {
-      formData = await loginFormRef.current.form.validateFields();
+      formData = await joinFormRef.current.form.validateFields();
     } catch (err) {
       return console.log(err);
     }
 
-    return loginMutation.mutate({
+    return joinMutation.mutate({
       ...formData,
-      token: await getCookieVisitorToken(),
     });
   };
 
@@ -82,15 +81,15 @@ let Login: React.FC<IProps> = (props) => {
       className={cx(
         styles['comp-wrapper'],
         { [styles['comp-wrapper--alwaysDarkMode']]: props.alwaysDarkMode },
-        `g-comp--${Login.displayName}`,
+        `g-comp--${Join.displayName}`,
         props.className,
       )}
       style={props.style}
     >
-      <HtmlMeta title="Login" />
+      <HtmlMeta title="Join" />
 
       <div className={styles['comp-inner']}>
-        <LoginForm ref={loginFormRef} onSubmit={onSubmit} />
+        <JoinForm ref={joinFormRef} onSubmit={onSubmit} />
 
         <LoadingButton
           type="primary"
@@ -98,22 +97,16 @@ let Login: React.FC<IProps> = (props) => {
           size="large"
           block
           className={styles['login-button-size']}
-          loading={loginMutation.isLoading}
+          loading={joinMutation.isLoading}
         >
-          登录
+          注册
         </LoadingButton>
 
         <div className={styles['footer']}>
-          <div className={styles['ext-link-home']}>
-            <SmartLink href="/">
-              <Button type="link">返回首页</Button>
-            </SmartLink>
-          </div>
-
-          <div className={styles['ext-link-join']}>
-            <SmartLink href="/join">
+          <div className={styles['ext-link-login']}>
+            <SmartLink href="/login">
               <Button type="link" size="small">
-                注册账号
+                返回登录
               </Button>
             </SmartLink>
           </div>
@@ -123,5 +116,5 @@ let Login: React.FC<IProps> = (props) => {
   );
 };
 
-Login = observer(Login);
-export { Login };
+Join = observer(Join);
+export { Join };

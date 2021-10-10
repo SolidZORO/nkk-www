@@ -1,27 +1,30 @@
 import { useQuery } from 'react-query';
 
 import { configs } from '@/configs';
-import { fetcher } from '@/libs/fetcher.lib';
-import { handleFetchCatch, handleFetchItem } from '@/utils/msg.util';
-import { IRqItemOpts } from '@/types';
+import { IRqQueryItemOpts } from '@/types';
+import { axios } from '@/libs/axios.lib';
+import { handleAxiosGetCatch, handleAxiosGetItem } from '@/utils/axios.util';
 import { IApiAuthCaptchaItemItem, IApiAuthCaptchaItemReq } from '@/types/api';
 
+type IQueryReq = IApiAuthCaptchaItemReq;
+type IQueryRes = IApiAuthCaptchaItemItem;
+
 export function useQueryItemCaptcha(
-  params?: IApiAuthCaptchaItemReq,
-  rqOpts?: IRqItemOpts<IApiAuthCaptchaItemItem>,
+  params?: IQueryReq,
+  rqQueryOpts?: IRqQueryItemOpts<IQueryRes>,
 ) {
-  const apiUrl = `${configs.url.API_URL}/captchas`;
+  const API_URL = `${configs.url.API_URL}/captchas`;
 
   return useQuery(
-    [apiUrl, params],
+    [API_URL, params],
     () =>
-      fetcher
-        .get(apiUrl, { params })
-        .then((res) => handleFetchItem(res, rqOpts))
-        .catch(handleFetchCatch),
-    // @ts-ignore
+      axios
+        .get(API_URL, { params })
+        .then((res) => handleAxiosGetItem(res, rqQueryOpts))
+        .catch(handleAxiosGetCatch),
     {
-      ...rqOpts,
+      // staleTime: configs.rq.STALETIME_MOMENT,
+      ...rqQueryOpts,
     },
   );
 }

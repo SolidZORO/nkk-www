@@ -5,9 +5,10 @@ import FingerprintJS from '@fingerprintjs/fingerprintjs';
 
 import { configs } from '@/configs';
 import { IAuthUser } from '@/types';
-import { errorMsg, handleFetchCatch } from '@/utils/msg.util';
-import { fetcher } from '@/libs';
-import { IFetcherResItem } from '@/types/api';
+import { handleAxiosGetCatch } from '@/utils/axios.util';
+import { errorMsg } from '@/utils/msg.util';
+import { axios } from '@/libs/axios.lib';
+import { IAxiosRawResItem } from '@/types/api';
 import { isServer } from '@/utils/env.util';
 
 /*
@@ -177,8 +178,8 @@ export const checkCookieUserIsAvailably = (opts?: {
 
 export const refreshUserInfoByApi = (): Promise<IAuthUser> =>
   new Promise((resolve) => {
-    fetcher
-      .get<any, IFetcherResItem<IAuthUser>>(`${configs.url.API_URL}/auth/me`)
+    axios
+      .get<any, IAxiosRawResItem<IAuthUser>>(`${configs.url.API_URL}/auth/me`)
       .then((res) => {
         if (!res?.data?.data) {
           console.error('setUserInfoFromApi', res);
@@ -193,7 +194,7 @@ export const refreshUserInfoByApi = (): Promise<IAuthUser> =>
 
         resolve(info);
       })
-      .catch(handleFetchCatch);
+      .catch(handleAxiosGetCatch);
   });
 
 export const getDiffPermissions = (oldPms: string[], newPms: string[]) => {

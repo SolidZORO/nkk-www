@@ -15,7 +15,7 @@ import { MasterLayout } from '@/layouts/MasterLayout/MasterLayout';
 import { AuthLayout } from '@/layouts/AuthLayout/AuthLayout';
 import { ILayout } from '@/types/comp.type';
 import { configs } from '@/configs';
-import { fetcher, setFetcherToken } from '@/libs';
+import { axios, setAxiosToken } from '@/libs/axios.lib';
 import { AppStore } from '@/stores/app.store';
 import { IApiSettingAllItem } from '@/types/api';
 import { isServer } from '@/utils/env.util';
@@ -65,8 +65,8 @@ export default function CustomApp(props: ICustomApp) {
   if (checkCookieUserIsAvailably({ token, tokenExpiresIn })) {
     // ⚠️
     // 由于代码部分 fetch hooks 的执行速度比 AppGlobalEvent 里的 useEffect([]) 还快
-    // 所以 setFetcherToken 放在这里，保证所有 fetch 都带上 token
-    setFetcherToken(getCookieUserToken({ token }));
+    // 所以 setAxiosToken 放在这里，保证所有 fetch 都带上 token
+    setAxiosToken(getCookieUserToken({ token }));
   }
 
   // 默认 Master
@@ -136,7 +136,7 @@ CustomApp.getInitialProps = async (app: AppContextType) => {
 
   const settingsRes: {
     data: { data: IApiSettingAllItem };
-  } = await fetcher.get(`${configs.url.API_URL}/settings/all`);
+  } = await axios.get(`${configs.url.API_URL}/settings/all`);
 
   /*
    * 在 Client / Server 共享 cookies
@@ -155,11 +155,15 @@ CustomApp.getInitialProps = async (app: AppContextType) => {
    *      需要判断用户权限（比如 checkUserIsAvailably）这种，可以在这些 Fn 开一个口，
    *      直接把 token 当成 args 传进去救急（这种情况一般是 initApp 时会用到）
    *
-   * PS2. 在 fetcher（如 axios）怎么拿到 Authorization Bearer？
+   * PS2. 在 axios 怎么拿到 Authorization Bearer？
    *      其实最简单的方式就是在这里（没错就是当前 getInitialProps）直接就 setToken 了
    *
    * */
   const reqCookies = cookie.parse(app.ctx?.req?.headers?.cookie || '');
+
+  setAxiosToken(
+    getCookieUserToken({ token: reqCookies?.[configs.user.USER_TOKEN_NAME] }),
+  );
 
   return {
     pageProps: {

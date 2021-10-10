@@ -1,28 +1,34 @@
 import { useQuery } from 'react-query';
 
 import { configs } from '@/configs';
-import { fetcher } from '@/libs/fetcher.lib';
-import { handleFetchCatch, handleFetchItem } from '@/utils/msg.util';
-import { IRqItemOpts } from '@/types';
-import { IApiSettingListReq } from '@/types/api';
+import { axios } from '@/libs/axios.lib';
+import { handleAxiosGetCatch, handleAxiosGetItem } from '@/utils/axios.util';
+import { IRqQueryItemOpts } from '@/types';
+import {
+  IApiSettingAllItem,
+  IApiSettingListReq,
+  IAxiosRawResItem,
+} from '@/types/api';
+
+type IQueryReq = IApiSettingListReq;
+type IQueryRes = IApiSettingAllItem;
 
 export function useQueryAllSetting(
-  params?: IApiSettingListReq,
-  rqOpts?: IRqItemOpts<{ [key: string]: any }>,
+  params?: IQueryReq,
+  rqQueryOpts?: IRqQueryItemOpts<IQueryRes>,
 ) {
-  const apiUrl = `${configs.url.API_URL}/settings/all`;
+  const API_URL = `${configs.url.API_URL}/settings/all`;
 
   return useQuery(
-    [apiUrl, params],
+    [API_URL, params],
     () =>
-      fetcher
-        .get(apiUrl, { params })
-        .then((res) => handleFetchItem(res, rqOpts))
-        .catch(handleFetchCatch),
-    // @ts-ignore
+      axios
+        .get<any, IAxiosRawResItem<IQueryRes>>(API_URL, { params })
+        .then((res) => handleAxiosGetItem(res, rqQueryOpts))
+        .catch(handleAxiosGetCatch),
     {
       staleTime: configs.rq.STALETIME_INFINITY,
-      ...rqOpts,
+      ...rqQueryOpts,
     },
   );
 }
