@@ -64,8 +64,8 @@ export default function CustomApp(props: ICustomApp) {
   // 检查 user 登录状态（这里还没办法拿到 StoresProvider，只能用 hack 的方法取值）
   if (checkCookieUserIsAvailably({ token, tokenExpiresIn })) {
     // ⚠️
-    // 由于代码部分 fetch hooks 的执行速度比 AppGlobalEvent 里的 useEffect([]) 还快
-    // 所以 setAxiosToken 放在这里，保证所有 fetch 都带上 token
+    // 由于代码部分 hooks 的执行速度比 AppGlobalEvent 里的 useEffect([]) 还快
+    // 所以 setAxiosToken 放在这里，保证所有 axios 都带上 token
     setAxiosToken(getCookieUserToken({ token }));
   }
 

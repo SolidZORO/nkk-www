@@ -18,7 +18,7 @@ export interface IRqUseQueryOptionsExt {
 
 // Query List
 export type IRqQueryListOpts<TData, TQueryKey = any> = UseQueryOptions<
-  Promise<IApiResListData<TData> | undefined | void>, // fetch 要返回的数据，handle 之后也算
+  Promise<IApiResListData<TData> | undefined | void>, // axios 要返回的数据，handle 之后也算
   AxiosError,
   IApiResListData<TData>, // <--- 这里是 List
   [string, TQueryKey] // 对应 useQuery 的 [apiUrl, params]

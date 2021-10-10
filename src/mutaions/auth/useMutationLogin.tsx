@@ -6,8 +6,8 @@ import { ILoginReq, ILoginRes, IRqMutItemOpts } from '@/types';
 import { handleAxiosPostCatch, handleAxiosPostItem } from '@/utils/axios.util';
 import { IAxiosRawResItem } from '@/types/api';
 
-type IMutRes = ILoginRes;
 type IMutReq = ILoginReq;
+type IMutRes = ILoginRes;
 
 export function useMutationLogin(
   rqMutationOpts?: IRqMutItemOpts<IMutRes, IMutReq>,

@@ -9,11 +9,11 @@ import {
 } from '@/types';
 import { configs } from '@/configs';
 import { IAxiosRawResItem, IAxiosRawResList } from '@/types/api';
-import { errorMsg, errorMsgTranslate } from '@/utils/msg.util';
+import { errorMsg, errorMsgTranslate, msg } from '@/utils/msg.util';
 
 /*
 |-------------------------------------------------------------------------------
-| Fetch
+| Get
 |-------------------------------------------------------------------------------
 |
 */
@@ -21,19 +21,19 @@ import { errorMsg, errorMsgTranslate } from '@/utils/msg.util';
 // 输入：Axios Raw Res
 // 输出：Api Item `data` 字段，满足 useQuery 的用法
 export function handleAxiosGetItem<TData>(
-  res: IAxiosRawResItem<TData>, // Axios Raw Res
+  rawRes: IAxiosRawResItem<TData>, // Axios Raw Res
   opts?: IRqQueryItemOpts<TData>,
 ) {
-  if (res?.data?.error) {
-    console.log('🔥🔥🔥 handleQueryItem', res?.data?.message, res);
+  if (rawRes?.data?.error) {
+    console.log('🔥🔥🔥 handleAxiosGetItem ERR', rawRes?.data?.message, rawRes);
 
-    if (!opts?.disabledErrorMsg) errorMsg(res?.data?.message);
+    if (!opts?.disabledErrorMsg) errorMsg(rawRes?.data?.message);
 
     return undefined;
   }
 
   // data: { id: 1, name: 'abc' }
-  return res?.data?.data;
+  return rawRes?.data?.data;
 }
 
 // 输入：Axios Raw Res
@@ -43,7 +43,7 @@ export function handleAxiosGetList<TData>(
   rqQueryOpts?: IRqQueryListOpts<TData[]>,
 ) {
   if (rawRes?.data?.error) {
-    console.log('🔥🔥🔥 handleQueryList', rawRes?.data?.message, rawRes);
+    console.log('🔥🔥🔥 handleAxiosGetList ERR', rawRes?.data?.message, rawRes);
 
     if (!rqQueryOpts?.disabledErrorMsg) errorMsg(rawRes?.data?.message);
 
@@ -75,7 +75,7 @@ export function handleAxiosGetCatch(err: IAxiosGetError): void {
 
 /*
 |-------------------------------------------------------------------------------
-| Mut
+| Post
 |-------------------------------------------------------------------------------
 |
 */
@@ -85,10 +85,17 @@ export function handleAxiosPostItem<TData, TVariables>(
   opts?: IRqMutItemOpts<TData, TVariables>,
 ): TData | undefined {
   if (rawRes?.data?.error) {
-    console.log('🔥🔥🔥 handleMutItem', rawRes?.data?.message, rawRes);
+    console.log(
+      '🔥🔥🔥 handleAxiosPostItem ERR',
+      rawRes?.data?.message,
+      rawRes,
+    );
+    if (!opts?.disabledErrorMsg) errorMsg(rawRes?.data?.message);
 
     return undefined;
   }
+
+  if (!opts?.disabledSuccessMsg) msg(rawRes?.data?.message);
 
   return rawRes?.data?.data;
 }

@@ -6,8 +6,8 @@ import { IJoinReq, IJoinRes, IRqMutItemOpts } from '@/types';
 import { handleAxiosPostCatch, handleAxiosPostItem } from '@/utils/axios.util';
 import { IAxiosRawResItem } from '@/types/api';
 
-type IMutRes = IJoinRes;
 type IMutReq = IJoinReq;
+type IMutRes = IJoinRes;
 
 export function useMutationJoin(
   rqMutationOpts?: IRqMutItemOpts<IMutRes, IMutReq>,
