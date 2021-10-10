@@ -114,8 +114,5 @@
     "react-icons-builder": "1.0.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.4.3"
-  },
-  "lint-staged": {
-    "*.js": "eslint --cache --fix"
   }
 }
