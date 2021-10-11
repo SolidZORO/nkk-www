@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 module.exports = {
-  // https://github.com/qcolate/eslint-config-qcolate/blob/master/.eslintrc.js
+  // https://github.com/qcolate/web-configs/blob/master/packages/eslint-config/react.js
   // extends: ['airbnb', 'airbnb-typescript', 'prettier'],
-  extends: ['next/core-web-vitals', 'qcolate'],
+  extends: ['next/core-web-vitals', '@qcolate/eslint-config'],
   env: {
     browser: true,
     es2021: true,
@@ -11,9 +11,6 @@ module.exports = {
   globals: {
     __DEV__: true,
     __PROD__: true,
-  },
-  parserOptions: {
-    project: ['tsconfig.json'],
   },
   //
   // 0 (off) / 1 (warn) / 2 (error)
