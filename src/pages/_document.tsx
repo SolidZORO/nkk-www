@@ -22,7 +22,7 @@ export default class CustomDocument extends Document {
       <Html lang="en" className="no-js">
         <Head>
           <meta name="referrer" content="no-referrer" />
-          <link rel="icon" href="/favicons/logo.svg" />
+          <link rel="icon" href="/favicons/favicon.svg" />
           <meta name="theme-color" content="#000000" />
           <meta
             name="description"
@@ -33,7 +33,7 @@ export default class CustomDocument extends Document {
             name="apple-mobile-web-app-status-bar-style"
             content="default"
           />
-          <link rel="apple-touch-icon" href="/favicons/logo192.png" />
+          {/* <link rel="apple-touch-icon" href="/favicons/logo192.png" /> */}
           <link rel="manifest" href="/manifest.json" />
         </Head>
         <body>
