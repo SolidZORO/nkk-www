@@ -2,6 +2,8 @@ import React from 'react';
 import { Button } from 'antd';
 import { RiRefreshLine } from 'react-icons/ri';
 
+import { isServer } from '@/utils/env.util';
+
 import styles from './styles.module.less';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -31,9 +33,12 @@ export class ErrorBoundary extends React.Component<IProps, IState> {
     this.setState({ errorInfo: err.message });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   onRefresh = () => {
-    window.location.href = '/';
-    // window.location.reload();
+    if (!isServer) {
+      window.location.href = '/';
+      // window.location.reload();
+    }
   };
 
   render() {

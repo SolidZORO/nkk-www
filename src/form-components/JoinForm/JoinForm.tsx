@@ -1,17 +1,8 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from 'react';
-import { observer } from 'mobx-react';
-import { Form, Input, Tooltip } from 'antd';
+import React, { forwardRef, useEffect, useImperativeHandle } from 'react';
+import { Form, Input } from 'antd';
 
 import { ICompBaseProps } from '@/types';
 import { IApiUserItem } from '@/types/api';
-import { useStore } from '@/stores';
-import { useQueryItemCaptcha } from '@/querys/captcha';
-import { getCookieVisitorToken } from '@/utils/user.util';
 
 import styles from './styles.module.less';
 
@@ -22,14 +13,8 @@ interface IProps extends ICompBaseProps {
   ref?: any;
 }
 
-// eslint-disable-next-line import/no-mutable-exports
-let JoinForm: React.FC<IProps> = forwardRef((props, ref) => {
-  const { appStore } = useStore();
-
+export const JoinForm: React.FC<IProps> = forwardRef((props, ref) => {
   const [form] = Form.useForm();
-  const [token, setToken] = useState<string>('');
-
-
 
   useImperativeHandle(ref, () => ({ form }));
 
@@ -86,6 +71,3 @@ let JoinForm: React.FC<IProps> = forwardRef((props, ref) => {
     </div>
   );
 });
-
-JoinForm = observer(JoinForm);
-export { JoinForm };

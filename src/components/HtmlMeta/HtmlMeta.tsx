@@ -1,22 +1,22 @@
 import React from 'react';
 import Head from 'next/head';
-import { observer } from 'mobx-react';
+import { useAtom } from 'jotai';
 
 import { configs } from '@/configs';
 import { ICompBaseProps } from '@/types';
-import { useStore } from '@/stores';
+import { appStore } from '@/stores';
 
 interface IProps extends ICompBaseProps {
   title: React.ReactNode;
   disableSiteName?: boolean;
 }
 
-// eslint-disable-next-line import/no-mutable-exports
-let HtmlMeta: React.FC<IProps> = (props) => {
-  const { appStore } = useStore();
+export const HtmlMeta: React.FC<IProps> = (props) => {
+  const [setting] = useAtom(appStore.setting);
+
   const siteName = props.disableSiteName
     ? ''
-    : ` - ${appStore?.setting?.site_name || configs.app.NAME}`;
+    : ` - ${setting?.site_name || configs.app.NAME}`;
 
   return (
     <Head>
@@ -27,6 +27,3 @@ let HtmlMeta: React.FC<IProps> = (props) => {
     </Head>
   );
 };
-
-HtmlMeta = observer(HtmlMeta);
-export { HtmlMeta };

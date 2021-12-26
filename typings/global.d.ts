@@ -1,12 +1,9 @@
-import { NextRouter } from 'next/router';
-
-declare global {
-  interface Window {
+declare const window: Window &
+  typeof globalThis & {
     NoCaptcha: any;
-    __ROUTER_HISTORY__: NextRouter;
+    __ROUTER_NAVIGATE__: any;
     __CONFIGS__: any;
-  }
-}
+  };
 
 declare namespace NodeJS {
   interface Process {

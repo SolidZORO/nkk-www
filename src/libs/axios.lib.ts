@@ -44,7 +44,8 @@ axios.interceptors.response.use(
 
     // 发现 401 代表 Token 失效，强制登出
     if (err.response?.status === 401) {
-      window.__ROUTER_HISTORY__?.replace('/logout');
+      // @ts-ignore
+      window.__ROUTER_NAVIGATE__('/logout', { replace: true });
       return Promise.resolve(err?.response);
     }
 

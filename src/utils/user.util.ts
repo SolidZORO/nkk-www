@@ -24,8 +24,8 @@ export const getCookieUserToken = (
     token: null,
   },
 ): string => {
-  // 这里直接传 token 感觉比较奇怪，但是在 _app.ts 初始化时，useStore 还不能用
-  // 所以，就拿 initState 的 token 直接传进来判断
+  // 这里直接传 token 感觉比较奇怪，但是在 _app.ts 初始化时，数据要从 cookie 拿
+  // 所以，就拿 cookie 的 token 直接传进来判断
   const userToken = opts?.token || Cookies.get(configs.user.USER_TOKEN_NAME);
 
   if (!userToken) {
@@ -39,11 +39,6 @@ export const getCookieUserToken = (
 };
 
 export const setCookieUserToken = (token: string, expiresIn: string) => {
-  if (!token || !expiresIn) {
-    errorMsg('Auth Token Error');
-    return;
-  }
-
   const expires = moment(expiresIn).toDate();
 
   Cookies.set(configs.user.USER_TOKEN_NAME, token, { expires });
@@ -110,11 +105,11 @@ export const getCookieUserInfo = (opts?: {
     : nextInfo;
 };
 
-export const setCookieUserInfo = (info: Partial<IAuthUser>) => {
-  if (!info) {
-    errorMsg('User Info Error');
-    return;
-  }
+export const setCookieUserInfo = (info?: Partial<IAuthUser> | null) => {
+  // if (!info) {
+  //   errorMsg('User Info Error');
+  //   return;
+  // }
 
   const expires = moment().add(10, 'years').toDate();
 
@@ -149,8 +144,8 @@ export const checkCookieUserIsAvailably = (opts?: {
   tokenExpiresIn?: string;
   userInfoStr?: string;
 }): boolean => {
-  // 这里直接传 token 感觉比较奇怪，但是在 _app.ts 初始化时，useStore 还不能用
-  // 所以，就拿 initState 的 token 直接传进来判断
+  // 这里直接传 token 感觉比较奇怪，但是在 _app.ts 初始化时，数据要从 cookie 拿
+  // 所以，就拿 cookie 的 token 直接传进来判断
   if (opts?.token) return true;
 
   const userToken = opts?.token || getCookieUserToken();

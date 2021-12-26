@@ -1,18 +1,16 @@
-import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
 
 import { setCookieVisitorToken } from '@/utils/user.util';
 import { isServer } from '@/utils/env.util';
 import { DISABLE_SSR_TRANSITION } from '@/pages/_document';
+import { useSmartNavigate } from '@/hooks';
 
 interface IProps {
   children?: React.ReactNode | any;
 }
 
-// eslint-disable-next-line import/no-mutable-exports
-let AppGlobalEvent: React.FC<IProps> = (props) => {
-  const router = useRouter();
+export const AppGlobalEvent: React.FC<IProps> = (props) => {
+  const navigate = useSmartNavigate();
 
   const avoidCssAnimationFlashing = () => {
     if (!isServer()) {
@@ -28,12 +26,10 @@ let AppGlobalEvent: React.FC<IProps> = (props) => {
     avoidCssAnimationFlashing();
     setCookieVisitorToken();
 
-    // 全局共享 history 方法（按照 react-router 的习惯，依然叫 history）
-    window.__ROUTER_HISTORY__ = router;
+    // 全局共享 navigate 方法（按照 react-router v6 的习惯，依然叫 navigate）
+    // @ts-ignore
+    window.__ROUTER_NAVIGATE__ = navigate;
   }, []);
 
   return props.children || null;
 };
-
-AppGlobalEvent = observer(AppGlobalEvent);
-export { AppGlobalEvent };

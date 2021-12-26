@@ -1,6 +1,5 @@
 import cx from 'classnames';
 import React from 'react';
-import { observer } from 'mobx-react';
 import { BiWater } from 'react-icons/bi';
 
 import { IPageBaseProps } from '@/types';
@@ -10,8 +9,7 @@ import styles from './styles.module.less';
 
 interface IProps extends IPageBaseProps {}
 
-// eslint-disable-next-line import/no-mutable-exports
-let About: React.FC<IProps> = (props) => {
+export const About: React.FC<IProps> = (props) => {
   return (
     <PageWrapper
       className={cx(
@@ -30,6 +28,3 @@ let About: React.FC<IProps> = (props) => {
     </PageWrapper>
   );
 };
-
-About = observer(About);
-export { About };

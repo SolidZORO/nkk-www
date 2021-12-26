@@ -1,86 +1,26 @@
-import _ from 'lodash';
-import { makeAutoObservable } from 'mobx';
-
+import { atom } from 'jotai';
 import { IAuthUser } from '@/types';
 import {
-  checkCookieUserIsAvailably,
   getCookieUserInfo,
-  clearCookieUser,
-  setCookieUserInfo,
-  setCookieUserToken,
+  getCookieUserToken,
+  getCookieUserTokenExpiresIn,
 } from '@/utils/user.util';
-import { clearAxiosToken } from '@/libs/axios.lib';
 
-export class UserStore {
-  permissions: string[] = [];
-  token: string = '';
-  tokenExpiresIn: string = '';
-  userInfo: any = null;
+const token = atom<string>('');
+token.onMount = (set) => set(() => getCookieUserToken());
 
-  constructor(initData?: { userStore?: UserStore }) {
-    makeAutoObservable(this);
+const tokenExpiresIn = atom<string | undefined>('');
+tokenExpiresIn.onMount = (set) => set(() => getCookieUserTokenExpiresIn());
 
-    if (initData?.userStore?.token || initData?.userStore?.tokenExpiresIn) {
-      this.setUserToken(
-        initData.userStore.token,
-        initData.userStore.tokenExpiresIn,
-      );
-    }
+const userInfo = atom<Partial<IAuthUser | null>>(null);
+userInfo.onMount = (set) => set(() => getCookieUserInfo());
 
-    // @ts-ignore 这里故意传了一个 Str 后缀的
-    if (initData?.userStore?.userInfoStr) {
-      const userInfo = getCookieUserInfo({
-        // @ts-ignore
-        userInfoStr: initData.userStore.userInfoStr,
-      });
+const permissions = atom<string[]>([]);
+permissions.onMount = (set) => set(() => getCookieUserInfo()?.permissions);
 
-      this.setUserInfo(userInfo);
-      this.setPermissions(userInfo?.permissions);
-    }
-  }
-
-  checkUserIsAvailably() {
-    return checkCookieUserIsAvailably({
-      token: this.token,
-      tokenExpiresIn: this.tokenExpiresIn,
-    });
-  }
-
-  // store 操作完后需要给 util 也操作一下，因为 login 那边统一用 store 的 fn
-
-  setPermissions(permissions: string[]) {
-    this.permissions = permissions;
-
-    return Promise.resolve(permissions);
-  }
-
-  clearUser() {
-    this.permissions = [];
-    this.token = '';
-    this.tokenExpiresIn = '';
-    this.userInfo = null;
-
-    clearAxiosToken();
-    clearCookieUser();
-  }
-
-  setUserInfo(userInfo: Partial<IAuthUser>) {
-    this.userInfo = userInfo;
-
-    setCookieUserInfo(userInfo);
-  }
-
-  setUserToken(token: string, expiresIn: string) {
-    this.token = token;
-    this.tokenExpiresIn = expiresIn;
-
-    setCookieUserToken(token, expiresIn);
-  }
-
-  can(permissionName?: any) {
-    if (!permissionName || !this.userInfo) return false;
-    if (!this.permissions || _.isEmpty(this.permissions)) return false;
-
-    return this.permissions.includes(permissionName);
-  }
-}
+export const userStore = {
+  token,
+  tokenExpiresIn,
+  permissions,
+  userInfo,
+};

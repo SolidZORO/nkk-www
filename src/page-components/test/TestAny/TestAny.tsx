@@ -1,17 +1,19 @@
 import cx from 'classnames';
 import React from 'react';
-import { observer } from 'mobx-react';
+import { Button } from 'antd';
 
 import { IPageBaseProps } from '@/types';
 import { HtmlMeta, LoadingButton, PageWrapper } from '@/components';
 import { configs } from '@/configs';
+import { useSmartNavigate } from '@/hooks';
 
 import styles from './styles.module.less';
 
 interface IProps extends IPageBaseProps {}
 
-// eslint-disable-next-line import/no-mutable-exports
-let TestAny: React.FC<IProps> = (props) => {
+export const TestAny: React.FC<IProps> = (props) => {
+  const navigate = useSmartNavigate();
+
   return (
     <PageWrapper
       className={cx(
@@ -27,9 +29,10 @@ let TestAny: React.FC<IProps> = (props) => {
       <LoadingButton type="primary" size="large" block loading>
         登录
       </LoadingButton>
+
+      <Button onClick={() => navigate('/login', { replace: true })}>
+        useSmartNavigate
+      </Button>
     </PageWrapper>
   );
 };
-
-TestAny = observer(TestAny);
-export { TestAny };

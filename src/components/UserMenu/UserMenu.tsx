@@ -10,7 +10,7 @@ import { IAuthUser, ICompBaseProps } from '@/types';
 import styles from './styles.module.less';
 
 interface IProps extends ICompBaseProps {
-  userInfo?: Partial<IAuthUser>;
+  userInfo?: Partial<IAuthUser> | null;
   size?: number;
 }
 

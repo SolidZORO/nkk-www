@@ -1,36 +1,34 @@
 import React from 'react';
 import cx from 'classnames';
 import { useRouter } from 'next/router';
-import { observer } from 'mobx-react';
 
 import { ICompBaseProps } from '@/types';
 import { Logo, SmartLink, UserMenu } from '@/components';
-import { useStore } from '@/stores';
+import { useSetUserInfo } from '@/hooks';
 
 import styles from './style.module.less';
 
 interface IProps extends ICompBaseProps {}
 
-// eslint-disable-next-line import/no-mutable-exports
-let HeaderNavbar: React.FC<IProps> = (props) => {
+export const HeaderNavbar: React.FC<IProps> = (props) => {
   const { pathname } = useRouter();
-  const { userStore } = useStore();
+  const { userInfo, checkUserIsAvailably } = useSetUserInfo();
 
   const navs = [
-    { to: '/about', text: 'about', exact: true },
-    // { to: '/test', text: 'button', exact: true },
-    { to: '/login', text: 'login', exact: true },
+    { to: '/about', text: 'about' },
+    // { to: '/test', text: 'test' },
+    { to: '/login', text: 'login' },
   ];
 
   const calcNavbarDom = () =>
     navs.map((nav) => {
-      if (nav.to === '/login' && userStore.checkUserIsAvailably()) {
+      if (nav.to === '/login' && checkUserIsAvailably()) {
         return (
           <UserMenu
-            className={styles['user-menu']}
+            className={cx(styles['user-menu'])}
             size={28}
             key={nav.to}
-            userInfo={userStore.userInfo}
+            userInfo={userInfo}
           />
         );
       }
@@ -66,6 +64,3 @@ let HeaderNavbar: React.FC<IProps> = (props) => {
     </div>
   );
 };
-
-HeaderNavbar = observer(HeaderNavbar);
-export { HeaderNavbar };

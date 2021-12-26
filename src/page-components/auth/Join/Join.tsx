@@ -1,7 +1,5 @@
 import cx from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
-import { observer } from 'mobx-react';
 import { Button } from 'antd';
 
 import { ILoginReq, IPageBaseProps } from '@/types';
@@ -9,23 +7,26 @@ import { HtmlMeta, LoadingButton, PageWrapper, SmartLink } from '@/components';
 import { JoinForm } from '@/form-components';
 import { setAxiosToken } from '@/libs/axios.lib';
 import { configs } from '@/configs';
-import { useStore } from '@/stores';
-
-import { getCookieVisitorToken } from '@/utils/user.util';
-import { useMutationJoin, useMutationLogin } from '@/mutaions/auth';
+import { useSetUserInfo, useSmartNavigate } from '@/hooks';
+import { useMutationJoin } from '@/mutaions/auth';
 
 import styles from './styles.module.less';
 
 interface IProps extends IPageBaseProps {}
 
-// eslint-disable-next-line import/no-mutable-exports
-let Join: React.FC<IProps> = (props) => {
-  const history = useRouter();
-  const { userStore } = useStore();
+export const Join: React.FC<IProps> = (props) => {
+  const navigate = useSmartNavigate();
+
+  const {
+    checkUserIsAvailably,
+    setUserInfo,
+    setUserToken,
+    setUserPermissions,
+  } = useSetUserInfo();
 
   const joinFormRef = useRef<any>();
   const [userIsAvailable, setUserIsAvailable] = useState(
-    userStore.checkUserIsAvailably(),
+    checkUserIsAvailably(),
   );
 
   const joinMutation = useMutationJoin({
@@ -37,16 +38,16 @@ let Join: React.FC<IProps> = (props) => {
       }
 
       if (data?.token) {
-        userStore.setUserToken(data?.token, data?.tokenExpiresIn);
+        setUserToken(data?.token, data?.tokenExpiresIn);
         setAxiosToken(data?.token);
       }
 
       if (data?.user) {
-        userStore.setUserInfo(data?.user);
+        setUserInfo(data?.user);
       }
 
-      // 登录成功后，mobx observer 会通知 sidebar menus 刷新权限
-      userStore.setPermissions(data?.user?.permissions || []).then(() => {
+      // 登录成功后，通知 sidebar menus 刷新权限
+      setUserPermissions(data?.user?.permissions || []).then(() => {
         // 等待设置完毕后，再跳转
         setUserIsAvailable(true);
       });
@@ -56,7 +57,7 @@ let Join: React.FC<IProps> = (props) => {
   useEffect(() => {
     // 登录过的用户不能再到 /login
     if (userIsAvailable) {
-      history?.replace(configs.url.HOME);
+      navigate(configs.url.HOME, { replace: true });
     }
   }, [userIsAvailable]);
 
@@ -115,6 +116,3 @@ let Join: React.FC<IProps> = (props) => {
     </PageWrapper>
   );
 };
-
-Join = observer(Join);
-export { Join };

@@ -1,17 +1,17 @@
+import { useAtom } from 'jotai';
 import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
   useState,
 } from 'react';
-import { observer } from 'mobx-react';
 import { Form, Input, Tooltip } from 'antd';
 
 import { ICompBaseProps } from '@/types';
 import { IApiUserItem } from '@/types/api';
-import { useStore } from '@/stores';
 import { useQueryItemCaptcha } from '@/querys/captcha';
 import { getCookieVisitorToken } from '@/utils/user.util';
+import { appStore } from '@/stores';
 
 import styles from './styles.module.less';
 
@@ -22,20 +22,16 @@ interface IProps extends ICompBaseProps {
   ref?: any;
 }
 
-// eslint-disable-next-line import/no-mutable-exports
-let LoginForm: React.FC<IProps> = forwardRef((props, ref) => {
-  const { appStore } = useStore();
-
+export const LoginForm: React.FC<IProps> = forwardRef((props, ref) => {
   const [form] = Form.useForm();
   const [token, setToken] = useState<string>('');
+  const [setting] = useAtom(appStore.setting);
+
+  const enabledCaptcha = `${setting?.enabled_captcha}` === '1';
 
   const { data: captcha, refetch: refetchCaptcha } = useQueryItemCaptcha(
     { token },
-    {
-      enabled: Boolean(
-        token && typeof appStore.setting?.enabled_captcha !== 'undefined',
-      ),
-    },
+    { enabled: Boolean(token && enabledCaptcha) },
   );
 
   useEffect(() => {
@@ -97,7 +93,7 @@ let LoginForm: React.FC<IProps> = forwardRef((props, ref) => {
           />
         </Form.Item>
 
-        {Number(appStore.setting?.enabled_captcha) ? (
+        {enabledCaptcha ? (
           <div className={styles['form-item--captcha']}>
             <Form.Item
               label="验证码"
@@ -130,6 +126,3 @@ let LoginForm: React.FC<IProps> = forwardRef((props, ref) => {
     </div>
   );
 });
-
-LoginForm = observer(LoginForm);
-export { LoginForm };

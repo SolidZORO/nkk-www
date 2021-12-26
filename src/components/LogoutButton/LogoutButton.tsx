@@ -1,11 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
-import { useRouter } from 'next/router';
 import { FiLogOut } from 'react-icons/fi';
 
 import { EventButton } from '@/components';
-import { useStore } from '@/stores';
-import { configs } from '@/configs';
+import { useSetUserInfo } from '@/hooks';
 
 import styles from './styles.module.less';
 
@@ -16,14 +14,7 @@ interface IProps {
 }
 
 export const LogoutButton: React.FC<IProps> = (props) => {
-  const { userStore } = useStore();
-  const history = useRouter();
-
-  const onLogout = () => {
-    userStore.clearUser();
-
-    history.push(configs.url.LOGIN);
-  };
+  const { logoutUserAndNavigateToLogin } = useSetUserInfo();
 
   return (
     <div
@@ -35,7 +26,7 @@ export const LogoutButton: React.FC<IProps> = (props) => {
       )}
       style={props.style}
     >
-      <EventButton onClick={onLogout}>
+      <EventButton onClick={logoutUserAndNavigateToLogin}>
         <span>安全退出</span> <FiLogOut />
       </EventButton>
     </div>

@@ -1,0 +1,126 @@
+@import '/src/styles/variables.less';
+@import '/src/styles/mixin.less';
+
+.comp-wrapper {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: calc(var(--page-padding-x) * 1.5);
+
+  @media (min-width: @screen-sm) {
+    place-items: center;
+  }
+
+  :global(.g-PageWrapper-header-wrapper) {
+    display: none;
+  }
+}
+
+.comp-inner {
+  //width: 100%;
+
+  @media (min-width: @screen-sm) {
+    width: 440px;
+    padding: 90px calc(var(--page-padding-x) * 2);
+    .mixin-card-warpper();
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 50px;
+
+  .logo {
+    @size: 68px;
+
+    //display: none;
+    margin: 0 auto;
+    display: block;
+    width: @size;
+    height: @size;
+    line-height: 1;
+  }
+
+  .title {
+    display: none;
+    font-size: 42px;
+  }
+}
+
+.container {
+  :global {
+    .ant-form-item-label {
+      display: none;
+    }
+
+    .ant-form-item {
+      margin-bottom: 25px;
+    }
+  }
+
+  .login-input-size {
+    border-color: #bbb !important;
+  }
+
+  .login-button-size {
+    font-size: 18px;
+  }
+
+  .form-item--captcha {
+    position: relative;
+  }
+
+  .captcha-image {
+    cursor: pointer;
+    position: absolute;
+    top: 1px;
+    right: 10px;
+    width: 100px;
+    height: 45px;
+
+    svg {
+      display: inline-block;
+      width: 100px;
+      height: 45px;
+    }
+  }
+}
+
+.footer {
+  text-align: center;
+  // 手机上视觉居中
+  margin-bottom: 80px;
+
+  @media (min-width: @screen-sm) {
+    margin-bottom: 30px;
+  }
+
+  .ext-link-home {
+    margin-top: 10px;
+
+    a,
+    button {
+      font-size: small;
+      font-style: normal;
+      color: #999;
+    }
+  }
+
+  .ext-link-register {
+    display: none;
+
+    a,
+    button {
+      font-size: small;
+      font-style: normal;
+      color: #999;
+    }
+  }
+}
+
+// DARK-MODE
+.comp-wrapper--alwaysDarkMode,
+:global(.@{THEME--DARK}) .comp-wrapper {
+}
