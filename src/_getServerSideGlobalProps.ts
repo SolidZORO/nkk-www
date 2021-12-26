@@ -34,36 +34,33 @@ export const _getServerSideGlobalProps = async (
    * 4. 还有什么吗？好像就这样简单几步
    *
    * */
-  // const reqCookies = cookie.parse(app.ctx?.req?.headers?.cookie || '');
   const reqCookies = cookie.parse(ctx?.req?.headers?.cookie || '');
 
-  setAxiosToken(
+  await setAxiosToken(
     getCookieUserToken({ token: reqCookies?.[configs.user.USER_TOKEN_NAME] }),
   );
 
-  const userInfo = reqCookies?.[configs.user.USER_INFO_NAME]
+  const userInfo = (await reqCookies?.[configs.user.USER_INFO_NAME])
     ? getCookieUserInfo({
         userInfoStr: reqCookies?.[configs.user.USER_INFO_NAME],
       })
     : { permissions: [] };
 
+  // ⚠️ 必须确保每一个 key 都有默认 value，不能为 undefined
   const pageProps: IPageProps = {
     initState: {
       appStore: {
-        setting: settingsRes?.data?.data,
+        setting: settingsRes?.data?.data || {},
       },
       userStore: {
-        token: reqCookies?.[configs.user.USER_TOKEN_NAME],
-        tokenExpiresIn: reqCookies?.[configs.user.USER_TOKEN_EXPIRES_IN_NAME],
+        token: reqCookies?.[configs.user.USER_TOKEN_NAME] || '',
+        tokenExpiresIn:
+          reqCookies?.[configs.user.USER_TOKEN_EXPIRES_IN_NAME] || '',
         userInfo,
         permissions: userInfo.permissions,
       },
     },
   };
 
-  // return { pageProps };
-  // }
-
-  // return { props: { title: 'TEST-TIELE', content: 'TEST-CONTENT' } };
   return { props: pageProps };
 };

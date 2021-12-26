@@ -5,7 +5,6 @@ import { appStore } from '@/stores';
 import { useQueryAllSetting } from '@/querys/setting';
 
 interface IProps {
-  initState?: any;
   children?: React.ReactNode | any;
 }
 

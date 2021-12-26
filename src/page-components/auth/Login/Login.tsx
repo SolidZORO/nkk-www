@@ -28,7 +28,6 @@ export const Login: React.FC<IProps> = (props) => {
 
   const loginFormRef = useRef<any>();
   const [userIsAvailable, setUserIsAvailable] = useState(
-    // userStore.checkUserIsAvailably(),
     checkUserIsAvailably(),
   );
 
@@ -41,15 +40,11 @@ export const Login: React.FC<IProps> = (props) => {
       }
 
       if (data?.token) {
-        // userStore.setUserToken(data?.token, data?.tokenExpiresIn);
-        // setAxiosToken(data?.token);
-
         setUserToken(data?.token, data?.tokenExpiresIn);
         setAxiosToken(data?.token);
       }
 
       if (data?.user) {
-        // userStore.setUserInfo(data?.user);
         setUserInfo(data?.user);
       }
 
@@ -83,7 +78,6 @@ export const Login: React.FC<IProps> = (props) => {
     });
   };
 
-  // if (_.isEmpty(toJS(appStore.setting))) return null;
   if (userIsAvailable) return null;
 
   return (

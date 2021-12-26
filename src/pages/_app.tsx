@@ -31,20 +31,22 @@ import {
 
 require('@/styles/global.less');
 
+export interface IInitState {
+  appStore?: {
+    setting?: Partial<IApiSettingAllItem>;
+  };
+  userStore?: {
+    token?: string;
+    tokenExpiresIn?: string;
+    permissions?: string[];
+    userInfo?: Partial<IApiUserItem>;
+  };
+}
+
 export interface IPageProps {
   layout?: ILayout;
   name?: string;
-  initState: {
-    appStore: {
-      setting: Partial<IApiSettingAllItem>;
-    };
-    userStore: {
-      token: string;
-      tokenExpiresIn: string;
-      permissions: string[];
-      userInfo: Partial<IApiUserItem>;
-    };
-  };
+  initState: IInitState;
 }
 
 export interface ICustomApp {
@@ -128,7 +130,7 @@ export default function CustomApp(props: ICustomApp) {
               />
             ) : null}
 
-            <AppGlobalFetch initState={props.pageProps?.initState} />
+            <AppGlobalFetch />
             <AppGlobalEvent />
 
             <NextNprogress

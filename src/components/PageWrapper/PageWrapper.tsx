@@ -7,7 +7,7 @@ import { ICompBaseProps } from '@/types';
 import styles from './styles.module.less';
 
 interface IProps extends ICompBaseProps {
-  title?: string | React.ReactNode;
+  title?: string | React.ReactNode | undefined | null;
   titleToolbar?: string | React.ReactNode;
   titleClassName?: string;
   //
