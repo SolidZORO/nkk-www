@@ -1,7 +1,7 @@
 {
   "name": "nkk-www",
   "description": "Make React Project w/ Next.js and Typescript",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "license": "MIT",
   "author": "Jason Feng <solidzoro@live.com>",
   "private": true,
