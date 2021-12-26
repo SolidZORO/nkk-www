@@ -18,7 +18,7 @@
     "-------------------------------- TOOL ----": "----",
     "nuke": "rimraf .next && rimraf .next && rimraf yarn.lock && rimraf node_modules && yarn",
     "clear": "rimraf .next",
-    "build-icons": "react-icons-builder --src ./src/assets/icons --dist ./src/libs/react-icons-ext",
+    "icons": "react-icons-builder --src ./src/assets/icons --dist ./src/libs/react-icons-ext",
     "prepare": "husky install",
     "-------------------------------- VERSIVE ----": "----",
     "versionup": "standard-version -r patch",
