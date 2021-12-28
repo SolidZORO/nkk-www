@@ -1,0 +1,74 @@
+{
+  "common": {
+    "undefined": "",
+
+    "request_success": "请求成功",
+    "request_fail": "请求失败",
+
+    "create_success": "新建成功",
+    "create_fail": "新建失败",
+
+    "update_success": "更新成功",
+    "update_fail": "更新失败",
+
+    "delete_success": "删除成功",
+    "delete_fail": "删除失败",
+
+    "hey": "嘿! {{appName}}",
+    "welcome_to": "欢迎来到 {{appName}}"
+  },
+  "route": {
+    "index": "首页",
+
+    "user": "用户",
+    "edit_user": "编辑用户",
+    "create_user": "新建用户",
+
+    "role": "角色",
+    "edit_role": "编辑角色",
+    "create_role": "新建角色",
+
+    "permission": "权限",
+    "edit_permission": "编辑权限",
+    "create_permission": "新建权限",
+
+    "content": "内容",
+
+    "article": "文章",
+    "edit_article": "编辑文章",
+    "create_article": "新建文章",
+
+    "categorie": "分类",
+    "edit_categorie": "编辑分类",
+    "create_categorie": "新建分类",
+
+    "attachment": "附件",
+
+    "ax": "广告",
+    "edit_ax": "编辑广告",
+    "create_ax": "新建广告",
+
+    "metadata": "元数据",
+    "edit_metadata": "编辑元数据",
+    "create_metadata": "新建元数据",
+
+    "setting": "设置",
+    "edit_setting": "编辑设置",
+    "create_setting": "新建设置",
+
+    "test": "测试",
+    "test_route": "测试路由",
+
+    "login": "登录",
+    "register": "注册"
+  },
+  "menu": {
+    "about": "关于",
+    "test": "测试",
+    "login": "登录"
+  },
+  "langs": {
+    "en": "English",
+    "zh-CN": "简体中文"
+  }
+}

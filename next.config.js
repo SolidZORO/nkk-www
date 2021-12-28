@@ -4,6 +4,8 @@ const withAntdLess = require('next-plugin-antd-less');
 // const withImages = require('next-images');
 const optimizedImages = require('next-optimized-images');
 
+const { i18n } = require('./next-i18next.config');
+
 const { getBuildInfo } = require('./scripts/tools/__fn');
 
 const pluginAntdLess = withAntdLess({
@@ -37,6 +39,7 @@ module.exports = withPlugins(
     env: {
       NEXT_PUBLIC_BUILD_INFO: JSON.stringify(getBuildInfo),
     },
+    i18n,
     webpack(webpackConfig) {
       return webpackConfig;
     },

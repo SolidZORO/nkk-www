@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { ICompBaseProps } from '@/types';
 import { Logo, SmartLink, UserMenu } from '@/components';
@@ -13,11 +14,12 @@ interface IProps extends ICompBaseProps {}
 export const HeaderNavbar: React.FC<IProps> = (props) => {
   const { pathname } = useRouter();
   const { userInfo, checkUserIsAvailably } = useSetUserInfo();
+  const { t, i18n } = useTranslation();
 
   const navs = [
-    { to: '/about', text: 'about' },
-    // { to: '/test', text: 'test' },
-    { to: '/login', text: 'login' },
+    { to: '/about', text: t('menu.about') },
+    // { to: '/test', text: t('menu.test') },
+    { to: '/login', text: t('menu.login') },
   ];
 
   const calcNavbarDom = () =>

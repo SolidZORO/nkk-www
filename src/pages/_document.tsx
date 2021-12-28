@@ -19,7 +19,7 @@ export default class CustomDocument extends Document {
 
   render() {
     return (
-      <Html lang="en" className="no-js">
+      <Html className="no-js">
         <Head>
           <meta name="referrer" content="no-referrer" />
           <link rel="icon" href="/favicons/favicon.svg" />

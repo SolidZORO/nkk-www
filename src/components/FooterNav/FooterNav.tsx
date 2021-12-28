@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 import { ICompBaseProps } from '@/types';
 import { configs } from '@/configs';
-import { Logo, SmartLink } from '@/components';
+import { Logo, SmartLink, SwitchLanguage } from '@/components';
 
 import styles from './style.module.less';
 
@@ -26,7 +26,10 @@ export const FooterNav: React.FC<IProps> = (props) => {
           <SmartLink href="/" target="_blank" rel="noreferrer">
             {configs.app.NAME}
           </SmartLink>
-          , All rights reserved.
+          <SwitchLanguage
+            className={styles['switch-language']}
+            buttonClassName={styles['switch-language-button']}
+          />
         </div>
 
         <SmartLink href="/" className={cx(styles['logo-link'])}>

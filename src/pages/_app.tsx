@@ -6,6 +6,7 @@ import { ConfigProvider as AntdConfigProvider, Spin } from 'antd';
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { useHydrateAtoms } from 'jotai/utils';
+import { appWithTranslation } from 'next-i18next';
 
 import { ReactQueryDevtools } from 'react-query/devtools';
 import zhCN from 'antd/lib/locale/zh_CN';
@@ -15,7 +16,7 @@ import { MasterLayout } from '@/layouts/MasterLayout/MasterLayout';
 import { AuthLayout } from '@/layouts/AuthLayout/AuthLayout';
 import { ILayout } from '@/types/comp.type';
 import { configs } from '@/configs';
-import { setAxiosToken } from '@/libs/axios.lib';
+import { clearAxiosToken, setAxiosToken } from '@/libs/axios.lib';
 import { IApiSettingAllItem, IApiUserItem } from '@/types/api';
 import { isServer } from '@/utils/env.util';
 import {
@@ -26,6 +27,7 @@ import {
 } from '@/components';
 import {
   checkCookieUserIsAvailably,
+  clearCookieUser,
   getCookieUserToken,
 } from '@/utils/user.util';
 
@@ -70,7 +72,7 @@ if (!isServer()) window.__CONFIGS__ = configs;
 
 Spin.setDefaultIndicator(<PageLoadingSpinner />);
 
-export default function CustomApp(props: ICustomApp) {
+const CustomApp = (props: ICustomApp) => {
   // initState from _getServerSideProps.ts
   const initState = props?.pageProps?.initState;
 
@@ -85,13 +87,16 @@ export default function CustomApp(props: ICustomApp) {
 
   useHydrateAtoms(hydrate as any);
 
-  // 检查 user 登录状态
   if (
-    checkCookieUserIsAvailably({
+    !checkCookieUserIsAvailably({
       token: initState?.userStore?.token,
       tokenExpiresIn: initState?.userStore?.tokenExpiresIn,
     })
   ) {
+    console.log('!checkCookieUserIsAvailably');
+    clearAxiosToken();
+    clearCookieUser();
+  } else {
     // ⚠️
     // 由于代码部分 hooks 的执行速度比 AppGlobalEvent 里的 useEffect([]) 还快
     // 所以 setAxiosToken 放在这里，保证所有 axios 都带上 token
@@ -150,7 +155,9 @@ export default function CustomApp(props: ICustomApp) {
       </AntdConfigProvider>
     </ErrorBoundary>
   );
-}
+};
+
+export default appWithTranslation(CustomApp as any);
 
 // 全局 State
 // ⚠️ 目前弃用这种方式，因为项目一旦出现 getInitialProps，就没办法享受 Next.js 的自动优化

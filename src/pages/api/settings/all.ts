@@ -8,7 +8,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(HttpStatus.OK).json(
       fmtHttpRes(
         fmtDataItem({
-          site_name: 'NKKKKK',
+          site_name: 'NKK',
           site_description: 'THIS A DESC',
           enabled_captcha: '1',
           is_mock_data: '1',

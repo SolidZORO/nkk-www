@@ -1,0 +1,74 @@
+{
+  "common": {
+    "undefined": "",
+
+    "request_success": "Request Success",
+    "request_fail": "Request Fail",
+
+    "create_success": "Create Success",
+    "create_fail": "Create Success",
+
+    "update_success": "Update Success",
+    "update_fail": "Update Success",
+
+    "delete_success": "Delete Success",
+    "delete_fail": "Delete Success",
+
+    "hey": "Hey! {{appName}}",
+    "welcome_to": "Welcome To {{appName}}"
+  },
+  "route": {
+    "index": "Index",
+
+    "user": "User",
+    "edit_user": "Edit User",
+    "create_user": "Create User",
+
+    "role": "Role",
+    "edit_role": "Edit Role",
+    "create_role": "Create Role",
+
+    "permission": "Permission",
+    "edit_permission": "Edit Permission",
+    "create_permission": "Create Permission",
+
+    "content": "Content",
+
+    "article": "Article",
+    "edit_article": "Edit Article",
+    "create_article": "Create Article",
+
+    "categorie": "Categorie",
+    "edit_categorie": "Edit Categorie",
+    "create_categorie": "Create Categorie",
+
+    "attachment": "Attachment",
+
+    "ax": "Ad",
+    "edit_ax": "Edit Ad",
+    "create_ax": "Create Ad",
+
+    "metadata": "Metadata",
+    "edit_metadata": "Edit Metadata",
+    "create_metadata": "Create Metadata",
+
+    "setting": "Setting",
+    "edit_setting": "Edit Setting",
+    "create_setting": "Create Setting",
+
+    "test": "Test",
+    "test_route": "Test Route",
+
+    "login": "Login",
+    "register": "Register"
+  },
+  "menu": {
+    "about": "about",
+    "test": "test",
+    "login": "login"
+  },
+  "langs": {
+    "en": "English",
+    "zh-CN": "简体中文"
+  }
+}

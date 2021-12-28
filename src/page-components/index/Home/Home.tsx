@@ -2,6 +2,7 @@ import cx from 'classnames';
 import React from 'react';
 import { RiHomeLine } from 'react-icons/ri';
 import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 
 import { IPageBaseProps } from '@/types';
 import { HtmlMeta, PageWrapper } from '@/components';
@@ -14,6 +15,7 @@ interface IProps extends IPageBaseProps {}
 
 export const Home: React.FC<IProps> = (props) => {
   const [setting] = useAtom(appStore.setting);
+  const { t } = useTranslation();
 
   return (
     <PageWrapper
@@ -31,7 +33,10 @@ export const Home: React.FC<IProps> = (props) => {
         <h2>
           <RiHomeLine />
         </h2>
-        <code>{setting?.site_name}</code>
+
+        <div className={styles['welcome']}>
+          {t('common.welcome_to', { appName: setting?.site_name || '__NKK__' })}
+        </div>
       </div>
     </PageWrapper>
   );

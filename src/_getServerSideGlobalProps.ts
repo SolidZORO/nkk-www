@@ -1,7 +1,8 @@
 import cookie from 'cookie';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSidePropsContext } from 'next/types';
-import { IApiSettingAllItem } from '@/types/api';
 
+import { IApiSettingAllItem } from '@/types/api';
 import { axios, setAxiosToken } from '@/libs/axios.lib';
 import { configs } from '@/configs';
 import { getCookieUserInfo, getCookieUserToken } from '@/utils/user.util';
@@ -62,5 +63,12 @@ export const _getServerSideGlobalProps = async (
     },
   };
 
-  return { props: pageProps };
+  return {
+    props: {
+      // @ts-ignore
+      // ...(await serverSideTranslations(ctx.locale, ['common'])),
+      ...(await serverSideTranslations(ctx.locale)),
+      ...pageProps,
+    },
+  };
 };

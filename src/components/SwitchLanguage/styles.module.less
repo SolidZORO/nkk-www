@@ -1,0 +1,19 @@
+@import '/src/styles/variables.less';
+@import '/src/styles/mixin.less';
+
+.comp-wrapper {
+  cursor: pointer;
+}
+
+.lang-button {
+  svg {
+    vertical-align: -2px;
+    width: 11px;
+    margin-right: 5px;
+  }
+}
+
+// DARK-MODE--COMP
+.comp-wrapper--alwaysDarkMode,
+:global(.@{THEME--DARK}) .comp-wrapper {
+}

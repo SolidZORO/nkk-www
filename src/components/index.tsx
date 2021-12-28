@@ -15,3 +15,4 @@ export { LazyImage } from './LazyImage/LazyImage';
 export { LogoutButton } from './LogoutButton/LogoutButton';
 export { UserMenu } from './UserMenu/UserMenu';
 export { EventButton } from './EventButton/EventButton';
+export { SwitchLanguage } from './SwitchLanguage/SwitchLanguage';
