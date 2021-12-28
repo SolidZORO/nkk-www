@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { Form, Input, Tooltip } from 'antd';
+import { useTranslation } from 'next-i18next';
 
 import { ICompBaseProps } from '@/types';
 import { IApiUserItem } from '@/types/api';
@@ -23,6 +24,7 @@ interface IProps extends ICompBaseProps {
 }
 
 export const LoginForm: React.FC<IProps> = forwardRef((props, ref) => {
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   const [token, setToken] = useState<string>('');
   const [setting] = useAtom(appStore.setting);
@@ -36,8 +38,8 @@ export const LoginForm: React.FC<IProps> = forwardRef((props, ref) => {
 
   useEffect(() => {
     // token 需要只能异步获取，获取完成后再发起 query 验证码
-    getCookieVisitorToken().then((t: string) => {
-      setToken(t);
+    getCookieVisitorToken().then((tk: string) => {
+      setToken(tk);
     });
   }, []);
 
@@ -67,27 +69,27 @@ export const LoginForm: React.FC<IProps> = forwardRef((props, ref) => {
         className={styles['container']}
       >
         <Form.Item
-          label="账户"
+          label={t('auth.account')}
           name="account"
           required
           rules={[{ required: true }]}
         >
           <Input
-            placeholder="账户"
+            placeholder={t('auth.account')}
             className={styles['login-input-size']}
             onPressEnter={props.onSubmit}
           />
         </Form.Item>
 
         <Form.Item
-          label="密码"
+          label={t('auth.password')}
           name="password"
           required
           rules={[{ required: true, min: 8 }]}
         >
           <Input.Password
             type="password"
-            placeholder="密码"
+            placeholder={t('auth.password')}
             className={styles['login-input-size']}
             onPressEnter={props.onSubmit}
           />
@@ -96,19 +98,19 @@ export const LoginForm: React.FC<IProps> = forwardRef((props, ref) => {
         {enabledCaptcha ? (
           <div className={styles['form-item--captcha']}>
             <Form.Item
-              label="验证码"
+              label={t('auth.captcha')}
               name="captcha"
               required
               rules={[{ required: true }]}
             >
               <Input
-                placeholder="验证码 (不区分大小写)"
+                placeholder={t('auth.captcha_case_insensitive')}
                 className={styles['login-input-size']}
                 onPressEnter={props.onSubmit}
               />
             </Form.Item>
 
-            <Tooltip title="点击刷新验证码">
+            <Tooltip title={t('auth.click_refresh_captcha')}>
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
               <div
                 className={styles['captcha-image']}

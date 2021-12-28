@@ -27,7 +27,7 @@ export const SwitchLanguage: React.FC<IProps> = (props) => {
           <Button
             type="link"
             onClick={() => {
-              router.push('/', '/', { locale: l });
+              router.push(router.pathname, router.pathname, { locale: l });
             }}
           >
             {/* @ts-ignore */}

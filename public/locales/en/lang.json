@@ -70,5 +70,16 @@
   "langs": {
     "en": "English",
     "zh-CN": "简体中文"
+  },
+  "auth": {
+    "login": "Login",
+    "back_index": "Back",
+    "join": "Join",
+    "account": "Account",
+    "password": "Password",
+    "captcha": "Captcha",
+    "click_refresh_captcha": "Click Refresh Captcha",
+    "captcha_case_insensitive": "Captcha (case insensitive)",
+    "safety_exit": "Safety Exit"
   }
 }

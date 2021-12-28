@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button } from 'antd';
+import { useTranslation } from 'next-i18next';
 
 import { ILoginReq, IPageBaseProps } from '@/types';
 import { HtmlMeta, LoadingButton, PageWrapper, SmartLink } from '@/components';
@@ -18,6 +19,7 @@ interface IProps extends IPageBaseProps {}
 
 export const Login: React.FC<IProps> = (props) => {
   const navigate = useSmartNavigate();
+  const { t } = useTranslation();
 
   const {
     checkUserIsAvailably,
@@ -103,23 +105,23 @@ export const Login: React.FC<IProps> = (props) => {
           className={styles['login-button-size']}
           loading={loginMutation.isLoading}
         >
-          登录
+          {t('auth.login')}
         </LoadingButton>
 
         <div className={styles['footer']}>
           <div className={styles['ext-link-home']}>
             <SmartLink href="/">
-              <Button type="link">返回首页</Button>
+              <Button type="link">{t('auth.back_index')}</Button>
             </SmartLink>
           </div>
 
-          <div className={styles['ext-link-join']}>
-            <SmartLink href="/join">
-              <Button type="link" size="small">
-                注册账号
-              </Button>
-            </SmartLink>
-          </div>
+          {/*<div className={styles['ext-link-join']}>*/}
+          {/*  <SmartLink href="/join">*/}
+          {/*    <Button type="link" size="small">*/}
+          {/*      {t('auth.join')}*/}
+          {/*    </Button>*/}
+          {/*  </SmartLink>*/}
+          {/*</div>*/}
         </div>
       </div>
     </PageWrapper>
