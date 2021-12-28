@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import React from 'react';
-import { HeaderNavbar } from '@/components';
+import { FooterNav, HeaderNavbar } from '@/components';
 import { ILayoutBaseProps } from '@/types/comp.type';
 
 import styles from './styles.module.less';
@@ -30,6 +30,10 @@ export const AuthLayout: React.FC<IProps> = (props) => {
         className={cx(styles['layout-container'], 'g-layout-container--master')}
       >
         <props.mainComp router={props.routeProps} pageProps={props.pageProps} />
+      </div>
+
+      <div className={cx(styles['layout-footer'], 'g-layout-footer--master')}>
+        <FooterNav />
       </div>
     </div>
   );
