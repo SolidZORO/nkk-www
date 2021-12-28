@@ -1,3 +1,5 @@
+const path = require('path');
+
 const __DEV__ = process.env.NODE_ENV !== 'production';
 
 module.exports = {
@@ -8,6 +10,7 @@ module.exports = {
     defaultNS: 'lang',
     localeDetection: false,
     reloadOnPrerender: __DEV__,
+    localePath: path.resolve('./public/locales'),
     // localeDetection: false,
     // localeStructure: '{{lng}}/{{ns}}'
   },

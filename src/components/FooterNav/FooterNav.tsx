@@ -26,15 +26,19 @@ export const FooterNav: React.FC<IProps> = (props) => {
           <SmartLink href="/" target="_blank" rel="noreferrer">
             {configs.app.NAME}
           </SmartLink>
+        </div>
+
+        <div className={cx(styles['logo-link'])}>
           <SwitchLanguage
             className={styles['switch-language']}
             buttonClassName={styles['switch-language-button']}
+            placement="topRight"
           />
-        </div>
 
-        <SmartLink href="/" className={cx(styles['logo-link'])}>
-          <Logo className={styles['logo']} />
-        </SmartLink>
+          <SmartLink href="/">
+            <Logo className={styles['logo']} />
+          </SmartLink>
+        </div>
       </div>
     </div>
   );
