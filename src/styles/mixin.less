@@ -55,3 +55,14 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
+
+.smart-min-100vh() {
+  min-height: 100vh;
+
+  // ignore IDE tips
+  @val: -webkit-fill-available;
+
+  @supports (background: -webkit-named-image(i)) {
+    min-height: @val;
+  }
+}

@@ -4,7 +4,7 @@ const __DEV__ = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   i18n: {
-    debug: __DEV__,
+    // debug: __DEV__,
     defaultLocale: 'en',
     locales: ['en', 'zh-CN'],
     defaultNS: 'lang',

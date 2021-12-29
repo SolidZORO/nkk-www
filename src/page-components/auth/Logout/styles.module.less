@@ -3,11 +3,11 @@
 
 .comp-wrapper {
   position: relative;
-  height: 100vh;
   display: flex;
   justify-content: center;
   flex-direction: column;
   padding: calc(var(--page-padding-x) * 1.5);
+  .smart-min-100vh();
 
   @media (min-width: @screen-sm) {
     place-items: center;
