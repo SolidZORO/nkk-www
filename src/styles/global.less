@@ -7,7 +7,6 @@
 html,
 body {
   width: 100%;
-  //background-color: var(--primary-color-bg);
 }
 
 html {
@@ -20,6 +19,7 @@ body {
 
 html,
 body,
+page,
 #root,
 #__next,
 .app {
@@ -40,29 +40,4 @@ body,
   @s: 0.6s;
   -webkit-animation: infiniteRotating @s infinite linear;
   animation: infiniteRotating @s infinite linear;
-}
-
-//
-//
-//
-// 3rd lib ----------
-.ReactQueryDevtools {
-  //opacity: 0.8;
-
-  & > button {
-    bottom: calc(env(safe-area-inset-bottom) + 35px) !important;
-    right: 8px !important;
-
-    svg {
-      width: 20px;
-      height: 20px;
-      opacity: 0.3;
-    }
-  }
-}
-
-.ReactQueryDevtoolsPanel {
-  * {
-    font-size: 10px !important;
-  }
 }

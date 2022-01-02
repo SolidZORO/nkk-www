@@ -32,6 +32,7 @@ import {
 } from '@/utils/user.util';
 
 require('@/styles/global.less');
+require('@/styles/global-lib.less');
 
 export interface IInitState {
   appStore?: {

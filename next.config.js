@@ -7,33 +7,15 @@ const optimizedImages = require('next-optimized-images');
 const { i18n } = require('./next-i18next.config');
 
 const { getBuildInfo } = require('./scripts/tools/__fn');
-
-const pluginAntdLess = withAntdLess({
-  // modifyVars: {
-  //   '@THEME--DARK': 'theme-dark',
-  // },
-  lessVarsFilePath: './src/styles/variables.less',
-  // cssLoaderOptions: {
-  //   esModule: false,
-  //   sourceMap: false,
-  //   modules: {
-  //     mode: 'local',
-  //   },
-  // },
-});
+const {
+  overrideWebpackConfig,
+} = require('./scripts/next/next-plugin--watcher');
 
 module.exports = withPlugins(
   [
-    [
-      optimizedImages,
-      {
-        optimizeImages: false,
-        mozjpeg: {
-          quality: 90,
-        },
-      },
-    ],
-    [pluginAntdLess],
+    [optimizedImages, { optimizeImages: false, mozjpeg: { quality: 90 } }],
+    [withAntdLess, { lessVarsFilePath: './src/styles/variables.less' }],
+    [overrideWebpackConfig],
   ],
   {
     env: {

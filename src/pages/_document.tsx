@@ -6,9 +6,17 @@ import Document, {
   Main,
   NextScript,
 } from 'next/document';
+import { watchI18nLocales } from '@/watchs/i18n-locales.watch';
 
 // avoid CSS animation transition flashing
 export const DISABLE_SSR_TRANSITION = 'disable-SSR-transition';
+
+// @ts-ignore 监控只跑一次
+if (!global.__WATCH_I18N_LOCALES_DEV_ONLY__) {
+  // @ts-ignore
+  global.__WATCH_I18N_LOCALES_DEV_ONLY__ = true;
+  watchI18nLocales();
+}
 
 export default class CustomDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
