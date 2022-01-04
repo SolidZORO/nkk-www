@@ -94,7 +94,6 @@ const CustomApp = (props: ICustomApp) => {
       tokenExpiresIn: initState?.userStore?.tokenExpiresIn,
     })
   ) {
-    console.log('!checkCookieUserIsAvailably');
     clearAxiosToken();
     clearCookieUser();
   } else {

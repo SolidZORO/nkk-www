@@ -2,7 +2,7 @@
 module.exports = {
   // https://github.com/qcolate/web-configs/blob/master/packages/eslint-config/react.js
   // extends: ['airbnb', 'airbnb-typescript', 'prettier'],
-  extends: ['next', '@qcolate/eslint-config'],
+  extends: ['@qcolate/eslint-config'],
   //
   env: {
     browser: true,
