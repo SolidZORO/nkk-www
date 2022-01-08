@@ -3,7 +3,7 @@ const path = require('path');
 const lessVarToCssVar = require('less-var-to-css-var');
 const WatchFileAndRunCallbackWebpackPlugin = require('watch-file-change-and-run-callback-webpack-plugin');
 
-const overrideWebpackConfig = (nextConfig = {}) => {
+const withWatcher = (nextConfig = {}) => {
   return Object.assign({}, nextConfig, {
     webpack(config, options) {
       const { dev, isServer } = options;
@@ -50,6 +50,4 @@ const overrideWebpackConfig = (nextConfig = {}) => {
   });
 };
 
-module.exports = {
-  overrideWebpackConfig,
-};
+module.exports = withWatcher;

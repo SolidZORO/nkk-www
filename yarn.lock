@@ -2229,7 +2229,7 @@ date-fns@2.x:
   resolved "https://registry.npmjs.org/date-fns/-/date-fns-2.27.0.tgz#e1ff3c3ddbbab8a2eaadbb6106be2929a5a2d92b"
   integrity sha512-sj+J0Mo2p2X1e306MHq282WS4/A8Pz/95GIFcsPNMPMZVI3EUrAdSv90al1k+p74WGLCruMXk23bfEDZa71X9Q==
 
-dayjs@1.x:
+dayjs@1.x, dayjs@^1.10.7:
   version "1.10.7"
   resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.10.7.tgz#2cf5f91add28116748440866a0a1d26f3a6ce468"
   integrity sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==
@@ -3472,6 +3472,13 @@ functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
+
+gen-buildinfo-webpack-plugin@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmmirror.com/gen-buildinfo-webpack-plugin/download/gen-buildinfo-webpack-plugin-1.1.0.tgz#39fd73696d2a712e4800a9161349b0cd2e6ab995"
+  integrity sha512-0U9KJeE7k2El+iFAEcF4U3JlXoQHtpz140snbM0n8YmqaCrPxEHwdSxC+pnu/HO+JZ3OlO4kUzCwJ/h2oDcCNg==
+  dependencies:
+    dayjs "^1.10.7"
 
 get-caller-file@^2.0.5:
   version "2.0.5"

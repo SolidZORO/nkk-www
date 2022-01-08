@@ -13,7 +13,6 @@ import { IPageProps } from '@/pages/_app';
  * 使用这个 fn 代替 _app.ts 中的 getInitialProps，每个 page 都会调用，保持 next 自动优化
  * */
 
-// eslint-disable-next-line @next/next/no-typos
 export const _getServerSideGlobalProps = async (
   ctx: GetServerSidePropsContext,
 ): Promise<{ props: IPageProps }> => {

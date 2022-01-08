@@ -4,6 +4,7 @@ import { BiWater } from 'react-icons/bi';
 
 import { IPageBaseProps } from '@/types';
 import { HtmlMeta, PageWrapper } from '@/components';
+import { configs } from '@/configs';
 
 import styles from './styles.module.less';
 
@@ -25,6 +26,8 @@ export const About: React.FC<IProps> = (props) => {
       <div className={styles['about-box']}>
         <BiWater />
       </div>
+
+      <div className={styles['build-version']}>v{configs.app.VERSION}</div>
     </PageWrapper>
   );
 };

@@ -1,5 +1,5 @@
 // eslint-disable-next-line max-len
-import { _getServerSideGlobalProps } from '@/_getServerSideGlobalProps';
+import { _getServerSideGlobalProps } from '@/utils/server-side.util';
 
 export { About as default } from '@/page-components/about/About/About';
 
