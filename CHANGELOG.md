@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/SolidZORO/nkk-www/compare/v0.1.0...v0.1.1) (2022-01-09)
+
+
+### Features
+
+* add buildinfo ([0c8e9bc](https://github.com/SolidZORO/nkk-www/commit/0c8e9bc78473a698e2d367a9cc2fd6589c4660dc))
+* less 兼容 iOS safari 100vh 使用 -webkit-fill-available ([e9fcd14](https://github.com/SolidZORO/nkk-www/commit/e9fcd145181b624c4777788b6dc9ecd55413cf07))
+* update deps ([ba70c38](https://github.com/SolidZORO/nkk-www/commit/ba70c38918a23f4aea29dec6d7e2e94f32309bf6))
+* use gen-buildinfo-webpack-plugin ([aa94641](https://github.com/SolidZORO/nkk-www/commit/aa946412e310f95046e8701b98fb22fdcd56c56a))
+* 优化 默认 logo ([77dd8b5](https://github.com/SolidZORO/nkk-www/commit/77dd8b53de97ceb4c4e18ac294d77713a9893aaf))
+* 加入 next-plugin--watcher.js 自动化生成 variables-css.less ([b175b47](https://github.com/SolidZORO/nkk-www/commit/b175b477a301d4af72840216e84f6ed28b570519))
+* 完成 i18n 全部内容 ([8459d4e](https://github.com/SolidZORO/nkk-www/commit/8459d4e60e3b3512d85206166faec6c7b1a126be))
+* 对齐 admin ([0c70e22](https://github.com/SolidZORO/nkk-www/commit/0c70e221c19e1c207ee1e9fc0ea530f5cc446811))
+* 登录新增翻译 ([047052f](https://github.com/SolidZORO/nkk-www/commit/047052f98e46dfd7fbef1df71fcab6a9492aae0d))
+
+
+### Bug Fixes
+
+* 修复部分页面无法居中对齐 ([3505724](https://github.com/SolidZORO/nkk-www/commit/3505724e396c98892bd605ea728b0bfa6f9e847d))
+* 修复部署到 vercel i18n 的 localePath 问题 ([8350f3b](https://github.com/SolidZORO/nkk-www/commit/8350f3b795ddf0e78408907fe7ee0eb8f49bbc2c))
+
+
+### Chore
+
+* update deps ([4ec0ae7](https://github.com/SolidZORO/nkk-www/commit/4ec0ae7e8fc8f467f82c1d783709d69b07c43ed4))
+
 ## [0.1.0](https://github.com/SolidZORO/nkk-www/compare/v0.0.2...v0.1.0) (2021-12-26)
 
 
