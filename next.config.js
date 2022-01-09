@@ -10,7 +10,15 @@ const withWatcher = require('./scripts/next/next-plugin--watcher');
 module.exports = withPlugins(
   [
     [optimizedImages, { optimizeImages: false, mozjpeg: { quality: 90 } }],
-    [withAntdLess, { lessVarsFilePath: './src/styles/variables.less' }],
+    [
+      withAntdLess,
+      {
+        lessVarsFilePath: './src/styles/variables.less',
+        // nextjs: {
+        //   localIdentNameFollowDev: true,
+        // },
+      },
+    ],
     [withWatcher],
   ],
   {
