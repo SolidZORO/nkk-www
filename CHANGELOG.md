@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/SolidZORO/nkk-www/compare/v0.1.1...v0.2.0) (2022-01-17)
+
+
+### Features
+
+* 清理掉 metadata 模块 ([4758d81](https://github.com/SolidZORO/nkk-www/commit/4758d810bc4d29f15fabae66a408e337db7bfd33))
+
 ### [0.1.1](https://github.com/SolidZORO/nkk-www/compare/v0.1.0...v0.1.1) (2022-01-09)
 
 
