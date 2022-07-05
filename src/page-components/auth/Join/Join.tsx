@@ -8,7 +8,7 @@ import { JoinForm } from '@/form-components';
 import { setAxiosToken } from '@/libs/axios.lib';
 import { configs } from '@/configs';
 import { useSetUserInfo, useSmartNavigate } from '@/hooks';
-import { useMutationJoin } from '@/mutaions/auth';
+import { useMutationJoin } from '@/mutations/auth';
 
 import styles from './styles.module.less';
 

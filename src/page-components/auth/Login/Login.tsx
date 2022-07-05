@@ -11,7 +11,7 @@ import { configs } from '@/configs';
 import { useSetUserInfo, useSmartNavigate } from '@/hooks';
 
 import { getCookieVisitorToken } from '@/utils/user.util';
-import { useMutationLogin } from '@/mutaions/auth';
+import { useMutationLogin } from '@/mutations/auth';
 
 import styles from './styles.module.less';
 
